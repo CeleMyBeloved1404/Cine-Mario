@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Cine Mario</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">CINE<span>MARIO</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Cartelera</a>
+                <div class="dropdown-menu">
+                    <a href="#">Películas en cartel</a>
+                    <a href="#">Próximos estrenos</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Géneros</a>
+                <div class="dropdown-menu">
+                    <a href="#">Acción</a>
+                    <a href="#">Comedia</a>
+                    <a href="#">Drama</a>
+                    <a href="#">Sci-Fi</a>
+                </div>
+            </li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="login.html" class="login-btn">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- Contact Section -->
+    <div class="main-content">
+        <div class="contact-container">
+            <h1>¿Necesitas ayuda?</h1>
+            <p class="contact-subtitle">Estamos aquí para asistirte en lo que necesites</p>
+            
+            <form class="contact-form" action="/enviar-contacto" method="POST">
+                <div class="form-group">
+                    <label for="nombre">Nombre completo:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="asunto">Asunto:</label>
+                    <select id="asunto" name="asunto" required>
+                        <option value="">Seleccione un asunto</option>
+                        <option value="peliculas">Consulta sobre películas</option>
+                        <option value="entradas">Consulta sobre entradas</option>
+                        <option value="precios">Información de precios</option>
+                        <option value="asientos">Consulta sobre asientos</option>
+                        <option value="compras">Problemas con compras</option>
+                        <option value="recibos">Consulta sobre recibos</option>
+                        <option value="otros">Otros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-button">Enviar mensaje</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cine Mario</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    
+    <nav class="navbar">
+        <a href="index.html" class="logo">CINE<span>MARIO</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li class="dropdown">
+                <a href="cartelera.html" class="dropdown-toggle">Cartelera</a>
+                <div class="dropdown-menu">
+                    <a href="#">Películas en cartel</a>
+                    <a href="#">Próximos estrenos</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Géneros</a>
+                <div class="dropdown-menu">
+                    <a href="#">Acción</a>
+                    <a href="#">Comedia</a>
+                    <a href="#">Drama</a>
+                    <a href="#">Sci-Fi</a>
+                </div>
+            </li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="login.html" class="login-btn">Login</a></li>
+        </ul>
+    </nav>
+    <main class="main-content">
+        
+        <div class="hero">
+            <h1>Bienvenido a <span>Cine Mario</span></h1>
+            <h2>Tu cine de confianza para ver películas</h2>
+            <p class="cta">Inicia sesión <a href="login.html">aquí</a> y disfruta del mejor cine.</p>
+        </div>
+    </main>
+    <div class="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-slide active">
+            <img src="images/movie1.jpg" alt="Película 1">
+            <div class="carousel-caption">
+                <h2>Spider-man 3</h2>
+                <p>Spider-Man 3 (2007) es la última entrega de la trilogía de Sam Raimi, donde Peter Parker (Tobey Maguire) se enfrenta a la llegada de un simbionte alienígena que se adhiere a su traje negro y saca su lado más oscuro.</p>
+                <button class="btn-ver-mas">Ver más</button>
+            </div>
+        </div>
+        <div class="carousel-slide">
+            <img src="images/movie2.jpg" alt="Película 2">
+            <div class="carousel-caption">
+                <h2>Kimetsu no Yaiba: Castillo infinito</h2>
+                <p>Muzan Kibutsuji, el líder de los demonios, atrapa al Cuerpo de Cazadores de Demonios en su fortaleza interdimensional para librar una batalla decisiva</p>
+                <button class="btn-ver-mas">Ver más</button>
+            </div>
+        </div>
+        <div class="carousel-slide">
+            <img src="images/movie3.jpg" alt="Película 3">
+            <div class="carousel-caption">
+                <h2>Duro de matar 5: Un buen día para morir</h2>
+                <p>John McClane (Bruce Willis) viaja a Rusia para rescatar a su hijo, Jack McClane (Jai Courtney), quien resulta ser un agente de la CIA. Juntos se ven forzados a trabajar juntos para frustrar un complot terrorista relacionado con uranio de armas nucleares</p>
+                <button class="btn-ver-mas">Ver más</button>
+            </div>
+        <!-- Agrega más slides según necesites -->
+    </div>
+    <button class="carousel-control prev">&lt;</button>
+    <button class="carousel-control next">&gt;</button>
+</div>
+
+
+
+    
+        <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+       
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+    </script>
+    <script src="js/carousel.js"></script>
+    <footer class="footer">
+      <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
