@@ -1,0 +1,8 @@
+/* === footer.css === */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: #000000;
+    font-size: 0.9rem;
+    color: #888;
+}

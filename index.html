@@ -1,57 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cine Mario</title>
-    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Fuente Netflix -->
+    <link href="https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
 
-    
-    <nav class="navbar">
+    <!-- === NAVBAR NETFLIX OFICIAL (solo este bloque cambió) === -->
+    <nav class="navbar" id="miNavbar">
+        <!-- TU LOGO -->
         <a href="index.html" class="logo">CINE<span>MARIO</span></a>
+
+        <!-- LINKS NETFLIX -->
         <ul class="nav-links">
             <li><a href="index.html">Inicio</a></li>
-            <li class="dropdown">
-                <a href="cartelera.html" class="dropdown-toggle">Cartelera</a>
-                <div class="dropdown-menu">
-                    <a href="#">Películas en cartel</a>
-                    <a href="#">Próximos estrenos</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Géneros</a>
-                <div class="dropdown-menu">
-                    <a href="#">Acción</a>
-                    <a href="#">Comedia</a>
-                    <a href="#">Drama</a>
-                    <a href="#">Sci-Fi</a>
-                </div>
-            </li>
-            <li><a href="contacto.html">Contacto</a></li>
-            <li><a href="login.html" class="login-btn">Login</a></li>
+            <li><a href="/pages/series.html">Series</a></li>
+            <li><a href="./pages/peliculas.html">Películas</a></li>
+            <li><a href="/pages/novedades.html">Novedades</a></li>
+            <li><a href="/pages/mi-lista.html">Mi lista</a></li>
+            <li><a href="./pages/login.html" class="login-btn">Login</a></li>
         </ul>
+
+        <!-- HAMBURGUESA MÓVIL -->
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </nav>
+    <!-- === FIN NAVBAR === -->
+
     <main class="main-content">
-        
         <div class="hero">
             <h1>Bienvenido a <span>Cine Mario</span></h1>
             <h2>Tu cine de confianza para ver películas</h2>
-            <p class="cta">Inicia sesión <a href="login.html">aquí</a> y disfruta del mejor cine.</p>
         </div>
     </main>
+
     <div class="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-slide active">
-            <img src="images/movie1.jpg" alt="Película 1">
-            <div class="carousel-caption">
-                <h2>Spider-man 3</h2>
-                <p>Spider-Man 3 (2007) es la última entrega de la trilogía de Sam Raimi, donde Peter Parker (Tobey Maguire) se enfrenta a la llegada de un simbionte alienígena que se adhiere a su traje negro y saca su lado más oscuro.</p>
-                <button class="btn-ver-mas">Ver más</button>
+        <div class="carousel-inner">
+            <div class="carousel-slide active">
+                <img src="images/movie1.jpg" alt="Película 1">
+                <div class="carousel-caption">
+                    <h2>Spider-man 3</h2>
+                    <p>Spider-Man 3 (2007) es la última entrega de la trilogía de Sam Raimi...</p>
+                    <button class="btn-ver-mas">Ver más</button>
+                </div>
             </div>
-        </div>
+           </div>
         <div class="carousel-slide">
             <img src="images/movie2.jpg" alt="Película 2">
             <div class="carousel-caption">
@@ -67,39 +72,27 @@
                 <p>John McClane (Bruce Willis) viaja a Rusia para rescatar a su hijo, Jack McClane (Jai Courtney), quien resulta ser un agente de la CIA. Juntos se ven forzados a trabajar juntos para frustrar un complot terrorista relacionado con uranio de armas nucleares</p>
                 <button class="btn-ver-mas">Ver más</button>
             </div>
-        <!-- Agrega más slides según necesites -->
+        </div>
+        <button class="carousel-control prev">&lt;</button>
+        <button class="carousel-control next">&gt;</button>
     </div>
-    <button class="carousel-control prev">&lt;</button>
-    <button class="carousel-control next">&gt;</button>
-</div>
 
-
-
-    
-        <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
-    </footer>
 
     <script>
-       
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        // Fondo negro al bajar
+        window.addEventListener('scroll', () => {
+            document.getElementById('miNavbar').classList.toggle('scrolled', scrollY > 80);
         });
 
-        
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    navLinks.classList.remove('active');
-                }
-            });
+        // Menú móvil
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
         });
     </script>
     <script src="js/carousel.js"></script>
+    
     <footer class="footer">
-      <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
+        <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>

@@ -1,0 +1,66 @@
+/* === base.css === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* RESET Y BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000000;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* FORMULARIOS Y ELEMENTOS BÁSICOS */
+form {
+    background-color: #000000;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(125, 20, 172, 0.3);
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    transition: transform 0.5s ease;
+}
+
+input {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+button {
+    background-color: #7A1CAC;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #AD49E1;
+}
+
+a {
+    color: #7A1CAC;
+    text-decoration: none;
+    margin-top: 10px;
+    text-align: center;
+    transition: color 0.5s ease, text-decoration 0.5s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión - Cine Mario</title>
+  <link rel="stylesheet" href="../styles/base.css">
+  <link rel="stylesheet" href="../styles/navbar.css">
+  <link rel="stylesheet" href="../styles/footer.css">
+  <link rel="stylesheet" href="../styles/login.css">
+</head>
+<body>
+  <div class="login-container">
+    <h1>Iniciar sesión</h1>
+
+    <div class="login-box">
+      <form action="/login" method="POST">
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Iniciar sesión</button>
+      </form>
+    </div>
+
+    <div class="register-link">
+      <p>¿No tienes cuenta? <a href="registrarse.html">Regístrate</a></p>
+    </div>
+  </div>
+</body>
+</html>

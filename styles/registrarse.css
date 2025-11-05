@@ -1,0 +1,34 @@
+/* Fondo de toda la página */
+body {
+    margin: 0;
+    background-color: #111; /* mismo negro que login */
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Contenedor centrado */
+.registrarse-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* centra verticalmente */
+    align-items: center;      /* centra horizontalmente */
+    height: 100vh;            /* ocupa toda la ventana */
+    margin: 0;
+}
+
+/* Caja del formulario */
+.registrarse-box {
+    background-color: #111;   /* mismo que container */
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #AD49E1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Título */
+h1 {
+    font-weight: 600;
+    color: #7A1CAC;
+    margin-bottom: 20px;
+}
