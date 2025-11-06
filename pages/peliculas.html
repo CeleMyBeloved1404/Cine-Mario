@@ -7,9 +7,9 @@
   
   <!-- Fuentes -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Netflix+Sans:wght@900&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="../styles/base.css">
+   
   <link rel="stylesheet" href="../styles/navbar.css">
+  <link rel="stylesheet" href="../styles/base.css">
   <link rel="stylesheet" href="../styles/footer.css">
   <link rel="stylesheet" href="../styles/peliculas.css">
 </head>
@@ -20,12 +20,11 @@
     <nav class="navbar" id="miNavbar">
       <a href="../index.html" class="logo">CINE<span>MARIO</span></a>
       <ul class="nav-links">
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="#">Series</a></li>
-        <li><a href="peliculas.html">Películas</a></li>
-        <li><a href="#">Novedades</a></li>
-        <li><a href="#">Mi lista</a></li>
-        <li><a href="login.html" class="login-btn">Login</a></li>
+        <li><a href="Series.html">Series</a></li>    
+        <li><a href="Novedades.html">Novedades</a></li>
+        <li><a href="mi-lista.html">Mi lista</a></li>
+        <li><a href="Genero.html" class="dropdown">Genero</a></li>
+        <li><a href="interfaz-usuario.html" class="perfil-btn">Perfil</a></li>
       </ul>
       <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
     </nav>
@@ -88,7 +87,8 @@
   <footer class="footer">
     <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
   </footer>
-
+   <script src="../js/navbar.js"></script>
   <script src="../js/peliculas.js"></script>
+  
 </body>
 </html>

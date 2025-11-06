@@ -1,7 +1,7 @@
 /* === INDEX CINEMARIO - PROFESIONAL 100% === */
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Inter',sans-serif; background:#000; color:#fff; }
-.header-spacer { height:68px; }
+.header-spacer { height: 90px; background: transparent; }
 
 /* LOGO: CINE rojo, MARIO blanco */
 .logo, .logo-hero { font-weight:900; font-size:2.2rem; text-decoration:none; color:#AD49E1; }
@@ -17,19 +17,9 @@ body { font-family:'Inter',sans-serif; background:#000; color:#fff; }
 .btn-primary {
   background:#7A1CAC; color:#fff; padding:16px 36px; font-size:1.2rem; font-weight:700;
   border:none; border-radius:8px; cursor:pointer; transition:.3s;
+  ;
 }
 .btn-primary:hover { background:#7A1CAC; }
-
-
-/* FLECHAS */
-.prev, .next {
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(0,0,0,0.6); color:#fff; border:none; width:50px; height:50px;
-  border-radius:50%; font-size:30px; cursor:pointer; z-index:10;
-}
-.prev { left:15px; }
-.next { right:15px; }
-.prev:hover, .next:hover { background:#AD49E1; }
 
 /* MÓVIL */
 @media (max-width:768px) {

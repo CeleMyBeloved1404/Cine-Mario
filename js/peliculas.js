@@ -1,7 +1,3 @@
-window.addEventListener('scroll', () => {
-  const nav = document.getElementById('miNavbar');
-  if (nav) nav.classList.toggle('scrolled', scrollY > 80);
-});
 
 // 2. MENÚ MÓVIL
 const menuToggle = document.getElementById('menuToggle');
