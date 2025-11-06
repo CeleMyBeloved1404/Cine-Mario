@@ -66,3 +66,12 @@ if (video) {
   video.muted = true;
   video.play().catch(() => console.log('Autoplay bloqueado'));
 }
+document.querySelectorAll('.dropdown-menu a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});

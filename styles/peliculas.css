@@ -201,3 +201,50 @@ body {
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
 }
+.dropdown {
+  position: relative;
+}
+.dropdown-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1.5;
+}
+.nav-links li {
+  display: inline-block;
+  vertical-align: middle;
+}
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(0,0,0,0.9);
+  border: 1px solid #AD49E1;
+  border-radius: 6px;
+  display: none;
+  flex-direction: column;
+  min-width: 120px;
+  z-index: 1000;
+}
+.dropdown-menu li {
+  list-style: none;
+}
+.dropdown-menu a {
+  display: block;
+  padding: 10px;
+  color: white;
+  text-decoration: none;
+}
+.dropdown-menu a:hover {
+  background: #AD49E1;
+}
+.dropdown:hover .dropdown-menu {
+  display: flex;
+}
