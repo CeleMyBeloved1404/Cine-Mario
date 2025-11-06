@@ -14,19 +14,17 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav class="navbar">
     <a href="../index.html" class="logo">CINE<span>MARIO</span></a>
     <ul class="nav-links">
       <li><a href="../index.html">Inicio</a></li>
-      <li><a href="./adminUsers.html">Admin Usuarios</a></li>
+      <li><a href="./admin-users.html">Admin Usuarios</a></li>
       <li><a href="#" onclick="logOut()">Cerrar sesión</a></li>
     </ul>
     <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
   </nav>
   <div class="header-spacer"></div>
 
-  <!-- CONTENIDO PRINCIPAL -->
   <main class="admin-container">
     <h1 class="admin-title">Panel de Administración</h1>
 
@@ -34,7 +32,6 @@
       <button class="btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">+ Añadir contenido</button>
     </div>
 
-    <!-- CARRUSEL DE PORTADAS -->
     <section class="carousel-section">
       <h2 class="section-title">Contenido Actual</h2>
 
@@ -54,7 +51,6 @@
       </div>
     </section>
 
-    <!-- TABLA -->
     <div class="table-container mt-5">
       <table class="table table-dark table-hover align-middle">
         <thead>
@@ -70,13 +66,11 @@
           </tr>
         </thead>
         <tbody id="tbody">
-          <!-- Renglones generados por JS -->
-        </tbody>
+          </tbody>
       </table>
     </div>
   </main>
 
-  <!-- MODAL AÑADIR -->
   <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content bg-dark text-light border border-secondary">
@@ -85,7 +79,7 @@
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <form id="addForm">
+          <form id="addForm" novalidate>
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label">Título</label>
@@ -123,8 +117,8 @@
                 <input type="number" class="form-control bg-dark text-light border-secondary" id="year" required>
               </div>
               <div class="col-12">
-                <label class="form-label">URL Imagen Portada</label>
-                <input type="text" class="form-control bg-dark text-light border-secondary" id="image" required>
+                <label class="form-label">Imagen Portada</label>
+                <input type="file" class="form-control bg-dark text-light border-secondary" id="image" accept="image/png, image/jpeg" required>
               </div>
             </div>
           </form>
@@ -137,33 +131,11 @@
     </div>
   </div>
 
- <!-- MODAL -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <button class="close-modal" id="closeModal">
-      <span class="material-icons">close</span>
-    </button>
-
-    <h2>Agregar Nueva Imagen</h2>
-
-    <label for="titulo">Título</label>
-    <input type="text" id="titulo" placeholder="Nombre de la película">
-
-    <label for="imagenFile">Seleccionar imagen (.jpg, .png)</label>
-    <input type="file" id="imagenFile" accept="image/png, image/jpeg">
-
-    <button id="guardarImagen">Guardar</button>
-  </div>
-</div>
-
-
-
-  <!-- FOOTER -->
   <footer class="footer">
     <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
   </footer>
 
-  <script src="../js/admin.js"></script>
+  <script src="../js/admin-films.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
