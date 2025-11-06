@@ -108,15 +108,22 @@ body {
 
 /* PELÍCULAS */
 .pelicula {
-  flex: 0 0 220px;
+  position: relative;
+  cursor: pointer;
+
+}
+.pelicula.seleccionada::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(122, 28, 172, 0.4); /* color galáctico */
+  border: 2px solid #AD49E1;
   border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(125,20,172,0.2);
-  transition: all 0.4s ease;
+  pointer-events: none;
 }
 .pelicula img {
-  width: 100%;
-  height: 100%;
+  width: 200px;
+  height: 100px;
   object-fit: cover;
   transition: transform 0.4s;
 }
@@ -246,4 +253,31 @@ body {
 }
 .dropdown:hover .dropdown-menu {
   display: flex;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(6px);
+}
+.modal-content {
+  background: #0f0f0f;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  color: white;
+}
+.cerrar {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.cerrar:hover {
+  color: #AD49E1;
 }

@@ -1,0 +1,200 @@
+/* === ADMIN CINE MARIO === */
+body {
+  background: #000000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ESPACIADO PARA NO TAPAR NAVBAR */
+.header-spacer {
+  height: 90px;
+  background: transparent;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* TÍTULOS */
+.admin-title {
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: #AD49E1;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #7A1CAC;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* BOTONES */
+.btn-primary {
+  background: #7A1CAC;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 700;
+  transition: .3s;
+}
+.btn-primary:hover {
+  background: #AD49E1;
+}
+
+/* TABLA */
+.table-container {
+  background: #111;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 0 20px rgba(122, 28, 172, 0.5);
+}
+
+.table-dark {
+  color: #ccc;
+  background: #111;
+}
+.table-dark th {
+  background: #7A1CAC;
+  border: none;
+  color: #fff;
+  text-align: center;
+}
+.table-dark td {
+  text-align: center;
+  border-top: 1px solid #333;
+}
+
+/* CARRUSEL */
+.carousel-section {
+  margin-top: 50px;
+  text-align: center;
+}
+.carousel-item img {
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform .3s;
+}
+.carousel-item img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(122, 28, 172, 0.7);
+}
+
+/* ==== MODAL CINE MARIO (v2 estable) ==== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  position: relative;
+  background: #111;
+  padding: 35px 40px;
+  border-radius: 16px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 0 25px #7A1CAC;
+  border: 1px solid #7A1CAC;
+}
+
+.modal-content h2 {
+  color: #AD49E1;
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #fff;
+  text-align: left;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border: 1px solid #7A1CAC;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.modal-content input[type="file"]::-webkit-file-upload-button {
+  background: #7A1CAC;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.modal-content input[type="file"]::-webkit-file-upload-button:hover {
+  background: #AD49E1;
+}
+
+.modal-content button {
+  background: #7A1CAC;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+}
+
+.modal-content button:hover {
+  background: #AD49E1;
+}
+
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-modal:hover {
+  color: #AD49E1;
+  transform: scale(1.1);
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.6rem;
+  display: inline-block;
+  line-height: 1;
+}

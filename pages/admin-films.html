@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cine Mario | Administración</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="../styles/navbar.css">
+  <link rel="stylesheet" href="../styles/footer.css">
+  <link rel="stylesheet" href="../styles/admin-films.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="../index.html" class="logo">CINE<span>MARIO</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="./adminUsers.html">Admin Usuarios</a></li>
+      <li><a href="#" onclick="logOut()">Cerrar sesión</a></li>
+    </ul>
+    <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="header-spacer"></div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="admin-container">
+    <h1 class="admin-title">Panel de Administración</h1>
+
+    <div class="admin-controls">
+      <button class="btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">+ Añadir contenido</button>
+    </div>
+
+    <!-- CARRUSEL DE PORTADAS -->
+    <section class="carousel-section">
+      <h2 class="section-title">Contenido Actual</h2>
+
+      <div id="carouselAdmin" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner" id="carouselItems">
+          <div class="carousel-item active">
+            <img src="../images/placeholder.jpg" class="d-block w-100" alt="Ejemplo" data-bs-toggle="modal" data-bs-target="#imgModal1">
+          </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAdmin" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselAdmin" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- TABLA -->
+    <div class="table-container mt-5">
+      <table class="table table-dark table-hover align-middle">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Tipo</th>
+            <th>Duración</th>
+            <th>Año</th>
+            <th>Publicado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <!-- Renglones generados por JS -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- MODAL AÑADIR -->
+  <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content bg-dark text-light border border-secondary">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="addModalLabel">Añadir nuevo contenido</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Título</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="title" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Categoría</label>
+                <select class="form-select bg-dark text-light border-secondary" id="category" required>
+                  <option value="">--</option>
+                  <option>Acción</option>
+                  <option>Ciencia Ficción</option>
+                  <option>Comedia</option>
+                  <option>Romance</option>
+                  <option>Terror</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Sinopsis</label>
+                <textarea class="form-control bg-dark text-light border-secondary" id="synopsis" rows="3" required></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Tipo</label>
+                <select class="form-select bg-dark text-light border-secondary" id="type" required>
+                  <option value="">--</option>
+                  <option>Película</option>
+                  <option>Serie</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Duración</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="duration" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Año</label>
+                <input type="number" class="form-control bg-dark text-light border-secondary" id="year" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">URL Imagen Portada</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="image" required>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" form="addForm" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <button class="close-modal" id="closeModal">
+      <span class="material-icons">close</span>
+    </button>
+
+    <h2>Agregar Nueva Imagen</h2>
+
+    <label for="titulo">Título</label>
+    <input type="text" id="titulo" placeholder="Nombre de la película">
+
+    <label for="imagenFile">Seleccionar imagen (.jpg, .png)</label>
+    <input type="file" id="imagenFile" accept="image/png, image/jpeg">
+
+    <button id="guardarImagen">Guardar</button>
+  </div>
+</div>
+
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="../js/admin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
