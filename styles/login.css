@@ -19,3 +19,24 @@ h1 {
     color: #7A1CAC;
     margin-bottom: 20px;
 }
+
+.register-link {
+    margin-top: 30px;
+    color: #fff;
+}
+.register-link {
+    margin-top: 50px; /* Aumentado de 30px a 50px para más separación */
+    color: #fff;
+    text-align: center;
+}
+
+.register-link a {
+    color: #AD49E1;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    color: #7A1CAC;
+}

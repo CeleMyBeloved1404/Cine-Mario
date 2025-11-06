@@ -1,7 +1,7 @@
 /* Fondo de toda la página */
 body {
     margin: 0;
-    background-color: #111; /* mismo negro que login */
+    background-color: #000000; /* mismo negro que login */
     font-family: 'Poppins', sans-serif;
 }
 
@@ -31,4 +31,21 @@ h1 {
     font-weight: 600;
     color: #7A1CAC;
     margin-bottom: 20px;
+}
+
+.login-link {
+    margin-top: 50px; /* Aumentado de 30px a 50px para más separación */
+    color: #fff;
+    text-align: center;
+}
+
+.login-link a {
+    color: #AD49E1;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: #7A1CAC;
 }

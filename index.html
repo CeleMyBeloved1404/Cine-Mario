@@ -1,98 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine Mario</title>
-    
-    <!-- Fuente Netflix -->
-    <link href="https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="styles/base.css">
-    <link rel="stylesheet" href="styles/navbar.css">
-    <link rel="stylesheet" href="styles/footer.css">
-    <link rel="stylesheet" href="styles/index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cine Mario</title>
+  
+  <!-- Fuente elegante -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/navbar.css">
+  <link rel="stylesheet" href="styles/footer.css">
+  <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
 
-    <!-- === NAVBAR NETFLIX OFICIAL (solo este bloque cambió) === -->
-    <nav class="navbar" id="miNavbar">
-        <!-- TU LOGO -->
-        <a href="index.html" class="logo">CINE<span>MARIO</span></a>
+  <!-- NAVBAR -->
+  <nav class="navbar" id="miNavbar">
+    <a href="index.html" class="logo">CINE<span>MARIO</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="pages/series.html">Series</a></li>
+      <li><a href="pages/peliculas.html">Películas</a></li>
+      <li><a href="pages/novedades.html">Novedades</a></li>
+      <li><a href="pages/mi-lista.html">Mi lista</a></li>
+      <li><a href="pages/login.html" class="login-btn">Login</a></li>
+    </ul>
+    <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="header-spacer"></div>
 
-        <!-- LINKS NETFLIX -->
-        <ul class="nav-links">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="/pages/series.html">Series</a></li>
-            <li><a href="./pages/peliculas.html">Películas</a></li>
-            <li><a href="/pages/novedades.html">Novedades</a></li>
-            <li><a href="/pages/mi-lista.html">Mi lista</a></li>
-            <li><a href="./pages/login.html" class="login-btn">Login</a></li>
-        </ul>
+  <!-- HERO -->
+  <section class="hero-home">
+    <video class="hero-video" autoplay muted loop playsinline poster="images/fallback.jpg">
+      <source src="videos/fondo-index.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
 
-        <!-- HAMBURGUESA MÓVIL -->
-        <div class="menu-toggle" id="menuToggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
-    <!-- === FIN NAVBAR === -->
-
-    <main class="main-content">
-        <div class="hero">
-            <h1>Bienvenido a <span>Cine Mario</span></h1>
-            <h2>Tu cine de confianza para ver películas</h2>
-        </div>
-    </main>
-
-    <div class="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-slide active">
-                <img src="images/movie1.jpg" alt="Película 1">
-                <div class="carousel-caption">
-                    <h2>Spider-man 3</h2>
-                    <p>Spider-Man 3 (2007) es la última entrega de la trilogía de Sam Raimi...</p>
-                    <button class="btn-ver-mas">Ver más</button>
-                </div>
-            </div>
-           </div>
-        <div class="carousel-slide">
-            <img src="images/movie2.jpg" alt="Película 2">
-            <div class="carousel-caption">
-                <h2>Kimetsu no Yaiba: Castillo infinito</h2>
-                <p>Muzan Kibutsuji, el líder de los demonios, atrapa al Cuerpo de Cazadores de Demonios en su fortaleza interdimensional para librar una batalla decisiva</p>
-                <button class="btn-ver-mas">Ver más</button>
-            </div>
-        </div>
-        <div class="carousel-slide">
-            <img src="images/movie3.jpg" alt="Película 3">
-            <div class="carousel-caption">
-                <h2>Duro de matar 5: Un buen día para morir</h2>
-                <p>John McClane (Bruce Willis) viaja a Rusia para rescatar a su hijo, Jack McClane (Jai Courtney), quien resulta ser un agente de la CIA. Juntos se ven forzados a trabajar juntos para frustrar un complot terrorista relacionado con uranio de armas nucleares</p>
-                <button class="btn-ver-mas">Ver más</button>
-            </div>
-        </div>
-        <button class="carousel-control prev">&lt;</button>
-        <button class="carousel-control next">&gt;</button>
+    <div class="hero-content">
+      <h1 class="logo-hero">CINE<span>MARIO</span></h1>
+      <p class="slogan">Tu cine. Tu pantalla. Tu historia.</p>
+      <div class="botones">
+        <a href="pages/peliculas.html" class="btn-primary">Explorar ahora</a>
+      </div>
     </div>
+  </section>
 
 
-    <script>
-        // Fondo negro al bajar
-        window.addEventListener('scroll', () => {
-            document.getElementById('miNavbar').classList.toggle('scrolled', scrollY > 80);
-        });
+  <footer class="footer">
+    <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
+  </footer>
 
-        // Menú móvil
-        document.getElementById('menuToggle').addEventListener('click', () => {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-    </script>
-    <script src="js/carousel.js"></script>
-    
-    <footer class="footer">
-        <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
-    </footer>
+  <!-- JS -->
+  <script src="js/index.js"></script>
 </body>
 </html>

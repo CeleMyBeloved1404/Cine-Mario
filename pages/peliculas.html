@@ -1,11 +1,11 @@
-html<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Películas - Cine Mario</title>
   
-  <!-- Tus fuentes + Netflix Sans solo para títulos -->
+  <!-- Fuentes -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Netflix+Sans:wght@900&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="../styles/base.css">
@@ -15,27 +15,33 @@ html<!DOCTYPE html>
 </head>
 <body>
 
-  <!-- TU NAVBAR (ya la tienes perfecta) -->
-  <nav class="navbar" id="miNavbar">
-    <a href="../index.html" class="logo">CINE<span>MARIO</span></a>
-    <ul class="nav-links">
-      <li><a href="../index.html">Inicio</a></li>
-      <li><a href="#">Series</a></li>
-      <li><a href="../pages/peliculas.html">Películas</a></li>
-      <li><a href="#">Novedades</a></li>
-      <li><a href="#">Mi lista</a></li>
-      <li><a href="../pages/login.html" class="login-btn">Login</a></li>
-    </ul>
-    <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
-  </nav>
+  <!-- HEADER: contenedor separado para el navbar (no sobrepuesto) -->
+  <header class="header-container">
+    <nav class="navbar" id="miNavbar">
+      <a href="../index.html" class="logo">CINE<span>MARIO</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="#">Series</a></li>
+        <li><a href="peliculas.html">Películas</a></li>
+        <li><a href="#">Novedades</a></li>
+        <li><a href="#">Mi lista</a></li>
+        <li><a href="login.html" class="login-btn">Login</a></li>
+      </ul>
+      <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+    </nav>
+  </header>
 
-  <!-- HERO MARIO (tu estilo, solo más grande) -->
+  <!-- Espaciador para que el contenido no quede debajo del navbar -->
+  <div class="header-spacer" aria-hidden="true"></div>
+
+  <!-- HERO MARIO -->
   <section class="hero-mario">
     <div class="hero-overlay"></div>
     <video class="hero-video" autoplay muted loop playsinline>
-    <source src="../videos/kimetsu-trailer.mp4" type="video/mp4">
-    Tu navegador no soporta video.
-  </video>
+      <source src="../videos/kimetsu-trailer.mp4" type="video/mp4">
+      Tu navegador no soporta video.
+    </video>
+
     <div class="hero-content">
       <h1>Kimetsu No Yaiba: El Castillo Infinito</h1>
       <p class="tagline">La saga continúa en el Castillo Infinito</p>
@@ -43,21 +49,20 @@ html<!DOCTYPE html>
       <div class="botones">
         <button class="btn-play">▶ Ver ahora</button>
         <button class="btn-info">+ Info</button>
-  </button>
-  <button class="btn-mute" id="muteBtn" title="Silenciar">
-  <svg viewBox="0 0 24 24" class="icon-on">
-    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
-  </svg>
-  <svg viewBox="0 0 24 24" class="icon-off">
-    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zm-2.5-8.8v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/>
-    <path d="M19 7l-1.4-1.4L12 11.2 6.4 5.6 5 7l5.6 5.6L5 18.2l1.4 1.4L12 14l5.6 5.6L19 18.2 13.4 12.6z" fill="white"/>
-  </svg>
-</button>
+        <button class="btn-mute" id="muteBtn" title="Silenciar">
+          <svg viewBox="0 0 24 24" class="icon-on">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+          </svg>
+          <svg viewBox="0 0 24 24" class="icon-off">
+            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zm-2.5-8.8v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/>
+            <path d="M19 7l-1.4-1.4L12 11.2 6.4 5.6 5 7l5.6 5.6L5 18.2l1.4 1.4L12 14l5.6 5.6L19 18.2 13.4 12.6z" fill="white"/>
+          </svg>
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- FILAS CINE MARIO (scroll suave + hover sutil) -->
+  <!-- FILAS CINE MARIO -->
   <main class="filas">
     <section class="fila">
       <h2>Tendencias esta semana</h2>
@@ -84,55 +89,6 @@ html<!DOCTYPE html>
     <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- JS (solo 15 líneas) -->
-  <script>
-    // Navbar negro al bajar
-    window.addEventListener('scroll', () => {
-      document.getElementById('miNavbar').classList.toggle('scrolled', scrollY > 80);
-    });
-
-    // Menú móvil
-    document.getElementById('menuToggle').onclick = () => {
-      document.querySelector('.nav-links').classList.toggle('active');
-    };
-
-    // Rellenar carrusele con 30 pósters reales
-    const pelis = [
-      "8cdWjvZQUExUUTzyp4t6EDMUBj4", "1XDDXPXGiI8id7MrUxK36ke7gkX", "zVMyvNowgbsBALG27hJ4mG0u61A",
-      "fY3SWsHQmL3cYfkROH7jnnZ4O0r", "9x1UPWBQ4bB8vZ7Z3aW8L9pQ5tR", "m1p2PYG3t1j7vB8kL5nX9qW2eR4",
-      "h3k2jP9mN6vC7xZ8pQ1wE3rT5yU", "kL9pQ2wE4rT6yU8iO0P1aS3dF5g", "6KEb5mvq1qBgW0ptN9kzkqYfF7z"
-    ];
-
-    [1,2,3,4].forEach(n => {
-      const fila = document.getElementById('fila'+n);
-      pelis.forEach(code => {
-        const div = document.createElement('div');
-        div.className = 'pelicula';
-        div.innerHTML = `<img src="https://image.tmdb.org/t/p/w500/${code}.jpg" loading="lazy">`;
-        fila.appendChild(div);
-      });
-    });
-
-    // Scroll con rueda
-    document.querySelectorAll('.carrusel').forEach(c => {
-      c.addEventListener('wheel', e => {
-        e.preventDefault();
-        c.scrollLeft += e.deltaY * 2;
-      });
-    });
-    document.querySelector('.btn-play').addEventListener('click', () => {
-  const video = document.querySelector('.hero-video');
-  video.muted = false;
-  video.currentTime = 0;
-  video.play();
-});
-const video = document.querySelector('.hero-video');
-const muteBtn = document.getElementById('muteBtn');
-
-muteBtn.addEventListener('click', () => {
-  video.muted = !video.muted;                     // toggle mute
-  muteBtn.classList.toggle('muted', video.muted); // cambia icono
-});
-  </script>
+  <script src="../js/peliculas.js"></script>
 </body>
 </html>
