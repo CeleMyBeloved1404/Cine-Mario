@@ -1,5 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
+// --- js/admin-users.js ---
 
+document.addEventListener('DOMContentLoaded', () => {
   // --- MODALES DE BOOTSTRAP ---
   const modalEditar = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
   const modalEliminar = new bootstrap.Modal(document.getElementById('confirmarEliminarUsuario'));
@@ -7,24 +8,38 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- ELEMENTOS DEL DOM ---
   const tbody = document.getElementById('cuerpoTablaUsuarios');
   const editUserForm = document.getElementById('editUserForm');
-  const btnConfirmarDelete = document.getElementById('confirmarEliminarUsuario').querySelector('.btn-danger');
+  const btnConfirmarDelete = document.getElementById('btn-confirmar-delete');
 
-  // --- "BASE DE DATOS" DE USUARIOS DE EJEMPLO ---
-  let mockUsuarios = [
-    { id: 1, nombre: 'Admin General', email: 'admin@cinemario.com', rol: 'Admin' },
-    { id: 2, nombre: 'Cele MyBeloved', email: 'cele@ejemplo.com', rol: 'Usuario' },
-    { id: 3, nombre: 'Usuario Prueba', email: 'test@ejemplo.com', rol: 'Usuario' }
-  ];
+  // --- "BASE DE DATOS" DE USUARIOS ---
+  // Intentamos cargar desde localStorage, si no, usamos datos de ejemplo
+  const DB_KEY = 'cineMarioUsers';
+  let usuariosDB = JSON.parse(localStorage.getItem(DB_KEY));
+
+  // Si no hay nada en localStorage, creamos datos de ejemplo y los guardamos
+  if (!usuariosDB || usuariosDB.length === 0) {
+    usuariosDB = [
+      { id: 1, username: 'Admin General', email: 'admin@cinemario.com', password: '123', rol: 'Admin' },
+      { id: 2, username: 'Cele MyBeloved', email: 'cele@ejemplo.com', password: '123', rol: 'Usuario' },
+      { id: 3, username: 'Usuario Prueba', email: 'test@ejemplo.com', password: '123', rol: 'Usuario' }
+    ];
+    // Guardamos los datos de ejemplo
+    localStorage.setItem(DB_KEY, JSON.stringify(usuariosDB));
+  }
+  
+  // --- FUNCIÓN PARA GUARDAR EN LOCALSTORAGE ---
+  function guardarDB() {
+    localStorage.setItem(DB_KEY, JSON.stringify(usuariosDB));
+  }
 
   // --- FUNCIÓN PARA "PINTAR" LOS USUARIOS EN LA TABLA ---
   function renderizarUsuarios() {
     tbody.innerHTML = ''; // Limpiar tabla
-    mockUsuarios.forEach(user => {
+    usuariosDB.forEach(user => {
       const row = document.createElement('tr');
       row.setAttribute('data-id', user.id);
       row.innerHTML = `
         <td>${user.id}</td>
-        <td>${user.nombre}</td>
+        <td>${user.username}</td>
         <td>${user.email}</td>
         <td>
           <span class="badge ${user.rol === 'Admin' ? 'bg-danger' : 'bg-primary'}">${user.rol}</span>
@@ -44,12 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!fila) return;
 
     const userId = fila.getAttribute('data-id');
-    const usuario = mockUsuarios.find(u => u.id == userId);
+    const usuario = usuariosDB.find(u => u.id == userId);
 
     // --- Botón EDITAR ---
     if (e.target.classList.contains('btn-editar')) {
       // 1. Rellenar el modal con los datos del usuario
-      document.getElementById('editUserName').value = usuario.nombre;
+      document.getElementById('editUserName').value = usuario.username;
       document.getElementById('editUserEmail').value = usuario.email;
       document.getElementById('editUserRole').value = usuario.rol;
       
@@ -62,9 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Botón ELIMINAR ---
     if (e.target.classList.contains('btn-eliminar')) {
-      // 1. Poner el nombre del usuario en el modal de confirmación (opcional)
+      // 1. Poner el nombre del usuario en el modal de confirmación
       const modalBody = document.getElementById('confirmarEliminarUsuario').querySelector('.modal-body');
-      modalBody.textContent = `¿Estás seguro de que quieres eliminar a ${usuario.nombre}?`;
+      modalBody.textContent = `¿Estás seguro de que quieres eliminar a ${usuario.username}?`;
 
       // 2. Guardar el ID en el botón "Eliminar" del modal
       btnConfirmarDelete.setAttribute('data-id-borrar', userId);
@@ -81,14 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const userId = editUserForm.getAttribute('data-editing-id');
     
     // 1. Actualizar el usuario en nuestra "base de datos"
-    const usuarioIndex = mockUsuarios.findIndex(u => u.id == userId);
+    const usuarioIndex = usuariosDB.findIndex(u => u.id == userId);
     if (usuarioIndex > -1) {
-      mockUsuarios[usuarioIndex].nombre = document.getElementById('editUserName').value;
-      mockUsuarios[usuarioIndex].email = document.getElementById('editUserEmail').value;
-      mockUsuarios[usuarioIndex].rol = document.getElementById('editUserRole').value;
+      usuariosDB[usuarioIndex].username = document.getElementById('editUserName').value;
+      usuariosDB[usuarioIndex].email = document.getElementById('editUserEmail').value;
+      usuariosDB[usuarioIndex].rol = document.getElementById('editUserRole').value;
     }
     
-    // 2. Volver a pintar la tabla
+    // 2. Guardar en localStorage y volver a pintar
+    guardarDB();
     renderizarUsuarios();
     
     // 3. Cerrar el modal
@@ -100,9 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const userId = btnConfirmarDelete.getAttribute('data-id-borrar');
     
     // 1. Eliminar el usuario de nuestra "base de datos"
-    mockUsuarios = mockUsuarios.filter(u => u.id != userId);
+    usuariosDB = usuariosDB.filter(u => u.id != userId);
     
-    // 2. Volver a pintar la tabla
+    // 2. Guardar en localStorage y volver a pintar
+    guardarDB();
     renderizarUsuarios();
     
     // 3. Cerrar el modal

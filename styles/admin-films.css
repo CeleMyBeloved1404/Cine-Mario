@@ -1,4 +1,5 @@
 /* === ADMIN CINE MARIO === */
+/* Este archivo estiliza admin-films.html Y admin-users.html */
 body {
   background: #000000;
   color: #fff;
@@ -57,7 +58,7 @@ body {
   min-height: 100px; /* Para que el estado vacío se vea bien */
 }
 
-/* AÑADIDO: Estado vacío para la tabla */
+/* Estado vacío para la tabla de películas */
 #tbody:empty::after {
   content: "No hay películas en el catálogo. Añade una para empezar.";
   display: block;
@@ -66,6 +67,17 @@ body {
   color: #888;
   font-size: 1.1rem;
 }
+
+/* Estado vacío para la tabla de usuarios */
+#cuerpoTablaUsuarios:empty::after {
+  content: "No hay usuarios registrados.";
+  display: block;
+  padding: 40px;
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+}
+
 
 .table-dark {
   color: #ccc;
@@ -83,7 +95,7 @@ body {
 }
 
 /* Estilo para los botones de acción en la tabla */
-.btn-editar, .btn-borrar {
+.btn-warning, .btn-danger {
   margin: 0 4px;
 }
 
@@ -103,4 +115,3 @@ body {
   transform: scale(1.03);
   box-shadow: 0 0 20px rgba(122, 28, 172, 0.7);
 }
-

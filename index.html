@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cine Mario</title>
   
-  <!-- Fuente elegante -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="styles/base.css">
@@ -15,17 +14,16 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav class="navbar" id="miNavbar">
     <a href="index.html" class="logo">CINE<span>MARIO</span></a>
-    <ul class="nav-links">
-      <li><a href="pages/login.html" class="login-btn">Login</a></li>
-    </ul>
+    
+    <ul class="nav-links" id="nav-links-list">
+      </ul>
+
     <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
   </nav>
   <div class="header-spacer"></div>
 
-  <!-- HERO -->
   <section class="hero-home">
     <video class="hero-video" autoplay muted loop playsinline poster="images/fallback.jpg">
       <source src="videos/fondo-index.mp4" type="video/mp4">
@@ -36,7 +34,7 @@
       <h1 class="logo-hero">CINE<span>MARIO</span></h1>
       <p class="slogan">Tu cine. Tu pantalla. Tu historia.</p>
       <div class="botones">
-        <a href="pages/login.html" class="btn-primary">Explorar ahora</a>
+        <a href="pages/login.html" class="btn-primary" id="explore-btn">Explorar ahora</a>
       </div>
     </div>
   </section>
@@ -46,8 +44,8 @@
     <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- JS -->
   <script src="js/index.js"></script>
   <script src="js/navbar.js"></script>
+  <script src="js/auth.js"></script>
 </body>
 </html>
