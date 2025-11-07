@@ -1,5 +1,8 @@
 /* === styles/novedades.css === */
-
+.header-spacer {
+  height: 90px; 
+  background: transparent;
+}
 body {
   /* Aseguramos los mismos fondos que las otras páginas */
   background: #000000;

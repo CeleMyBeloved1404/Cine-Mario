@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
       titulo: '¡Lanzamiento de Cine Mario!',
       fecha: '07 Nov, 2025',
       snippet: 'La nueva plataforma de streaming ya está disponible.',
-      imagen: '../images/placeholder.jpg' // Puedes cambiar esto por una captura de tu admin
+      imagen: '../images/Cine-Mario.jpg' // Puedes cambiar esto por una captura de tu admin
     },
     {
       id: 2,
       titulo: 'Spider-Verse se une al catálogo',
       fecha: '05 Nov, 2025',
       snippet: 'Prepárate para saltar entre dimensiones. "Spider-Man: Across the Spider-Verse" ya está disponible en la sección de Animación.',
-      imagen: '../images/peliculas/animacion6.jpg' //
+      imagen: '../images/peliculas/animacion4.jpg' //
     },
     {
       id: 3,

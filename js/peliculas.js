@@ -1,13 +1,8 @@
+// --- js/peliculas.js (Corregido) ---
 
-// 2. MENÚ MÓVIL
-const menuToggle = document.getElementById('menuToggle');
-if (menuToggle) {
-  menuToggle.addEventListener('click', () => {
-    document.querySelector('.nav-links').classList.toggle('active');
-  });
-}
+// 2. MENÚ MÓVIL (Eliminado, ahora está en navbar.js)
 
-// 3. BOTÓN MUTE (morado galáctico #7A1CAC)
+// 3. BOTÓN MUTE
 const video = document.querySelector('.hero-video');
 const muteBtn = document.getElementById('muteBtn');
 
@@ -18,7 +13,7 @@ if (muteBtn && video) {
   });
 }
 
-// 4. BOTÓN PLAY → sonido ON
+// 4. BOTÓN PLAY
 document.querySelectorAll('.btn-play').forEach(btn => {
   btn.addEventListener('click', () => {
     if (!video) return;
@@ -28,12 +23,12 @@ document.querySelectorAll('.btn-play').forEach(btn => {
   });
 });
 
-// 5. RELLENAR CARRUSELES (pósters reales de TMDB)
+// 5. RELLENAR CARRUSELES
 const imagenesPorGenero = {
   fila1: ["tendencia1.jpg", "tendencia2.jpg", "tendencia3.jpg"],
   fila2: ["accion1.jpg", "accion2.jpg", "accion3.jpg", "accion4.jpg", "accion5.jpg", "accion6.jpg", "accion7.jpg"],
-  fila3: ["comedia1.jpg", "comedia2.jpg", "comedia3.jpg"],
-  fila4: ["terror1.jpg", "terror2.jpg", "terror3.jpg"],
+  fila3: ["comedia1.jpg", "comedia2.jpg", "comedia3.jpg", "comedia4.jpg", "comedia5.jpg", "comedia6.jpg"],
+  fila4: ["terror1.jpg", "terror2.jpg", "terror3.jpg", "terror4.jpg", "terror5.jpg", "terror6.jpg"],
   fila5: ["animacion1.jpg", "animacion2.jpeg", "animacion3.jpg", "animacion4.jpg", "animacion5.jpg", "animacion6.jpg"],
   fila6: ["drama1.jpg", "drama2.jpg", "drama3.jpg"],
 };
@@ -53,6 +48,7 @@ Object.entries(imagenesPorGenero).forEach(([id, lista]) => {
     carrusel.appendChild(div);
   });
 });
+
 const peliculas = [
   {
     id: "animacion1",
@@ -70,13 +66,13 @@ const peliculas = [
     director: "Byron Howard, Jared Bush",
     sinopsis: "En una ciudad donde los animales viven como humanos, un zorro y una coneja forman una inesperada alianza."
   }
-  ];
-  // Mostrar modal al hacer clic en imagen
+];
+
+// Mostrar modal al hacer clic en imagen
 document.addEventListener("click", (e) => {
   const img = e.target.closest(".pelicula img");
   if (!img) return;
 
-  // Buscar la película correspondiente por nombre de archivo
   const nombre = img.src.split("/").pop(); // ej: animacion1.jpg
   const pelicula = peliculas.find(p => p.imagen.includes(nombre));
 
@@ -115,6 +111,7 @@ window.addEventListener("click", (e) => {
     document.getElementById("trailer").src = "";
   }
 });
+
 // 6. SCROLL CON RUEDA MOUSE
 document.querySelectorAll('.carrusel').forEach(carrusel => {
   carrusel.addEventListener('wheel', e => {
@@ -123,11 +120,13 @@ document.querySelectorAll('.carrusel').forEach(carrusel => {
   });
 });
 
-// 7. BONUS: auto-reproducir tráiler al cargar (mute ON)
+// 7. AUTOPLAY VIDEO
 if (video) {
   video.muted = true;
   video.play().catch(() => console.log('Autoplay bloqueado'));
 }
+
+// NAVEGACIÓN DROPDOWN GÉNERO
 document.querySelectorAll('.dropdown-menu a').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
@@ -137,6 +136,8 @@ document.querySelectorAll('.dropdown-menu a').forEach(link => {
     }
   });
 });
+
+// SELECCIÓN DE PELÍCULA
 document.addEventListener('click', e => {
   const pelicula = e.target.closest('.pelicula');
   if (!pelicula) return;

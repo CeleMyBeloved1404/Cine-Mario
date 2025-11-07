@@ -1,5 +1,4 @@
-// --- js/series.js ---
-// (Adaptado y CORREGIDO desde peliculas.js)
+// --- js/series.js (Corregido) ---
 
 // --- BOTÓN MUTE ---
 const video = document.querySelector('.hero-video');
@@ -138,7 +137,6 @@ document.addEventListener('click', e => {
 });
 
 // --- NAVEGACIÓN DROPDOWN GÉNERO ---
-// (Esta lógica estaba en peliculas.js y es necesaria)
 document.querySelectorAll('.dropdown-menu a').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
@@ -148,5 +146,3 @@ document.querySelectorAll('.dropdown-menu a').forEach(link => {
     }
   });
 });
-
-// NOTA: La llave '}' extra que estaba aquí en peliculas.js ha sido eliminada.

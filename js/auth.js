@@ -1,39 +1,39 @@
-// --- js/auth.js (VERSIÓN FINAL) ---
-// Este script maneja el navbar en TODAS las páginas
+// --- js/auth.js (Simplificado, SIN foto) ---
 
 document.addEventListener('DOMContentLoaded', () => {
   const navLinksList = document.getElementById('nav-links-list'); 
   if (!navLinksList) {
-    // Si la página no tiene el <ul> (ej. login/registro), no hacemos nada
     return;
   }
 
   const loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
 
-  // --- Lógica de Rutas Mejorada ---
-  // Verificamos si estamos en la raíz (index) o dentro de /pages/
   const isInsidePages = window.location.pathname.includes('/pages/');
-  
-  // Definimos las rutas correctas
-  const basePath = isInsidePages ? '' : 'pages/'; // Si estoy en pages/, la ruta es '' (ej. login.html)
-  const rootPath = isInsidePages ? '../' : '';     // Si estoy en pages/, la raíz es '../' (ej. ../index.html)
-  // --- Fin Lógica de Rutas ---
+  const basePath = isInsidePages ? '' : 'pages/';
+  const rootPath = isInsidePages ? '../' : '';
 
   let linksHTML = '';
 
   if (loggedInUser) {
-    // --- (Meta 1) Usuario HA INICIADO SESIÓN ---
-    // Se muestra el desplegable de Perfil
+    // --- Usuario HA INICIADO SESIÓN ---
     
-    // 1. Link al Panel de Admin (fuera del dropdown)
     if (loggedInUser.rol === 'Admin') {
       linksHTML += `<li><a href="${basePath}admin-films.html">Admin Panel</a></li>`;
     }
     
-    // 2. El nuevo Dropdown de Perfil
+    // --- INICIO CAMBIO: HTML del Dropdown de Perfil ---
+    
+    // 1. Crear la inicial del avatar
+    const userInitial = loggedInUser.username ? loggedInUser.username[0].toUpperCase() : '?';
+    const avatarHTML = `<div class="navbar-avatar">${userInitial}</div>`;
+
+    // 2. Crear el botón del dropdown
     linksHTML += `
       <li class="dropdown">
-        <a href="#" class="dropdown-btn perfil-btn">${loggedInUser.username} ▾</a>
+        <a href="#" class="dropdown-btn perfil-btn">
+          ${avatarHTML}
+          <span>${loggedInUser.username} ▾</span>
+        </a>
         <ul class="dropdown-menu">
           <li><a href="${basePath}perfil.html">Mi Perfil</a></li>
           <li><a href="${basePath}configuracion.html">Configuración</a></li>
@@ -43,24 +43,22 @@ document.addEventListener('DOMContentLoaded', () => {
         </ul>
       </li>
     `;
+    // --- FIN CAMBIO ---
     
-    // Inyectamos el HTML
     navLinksList.innerHTML += linksHTML;
     
-    // 3. Añadimos el listener para el botón de logout
     const logoutBtn = document.getElementById('logout-btn');
     if(logoutBtn) {
       logoutBtn.addEventListener('click', (e) => {
         e.preventDefault();
         sessionStorage.removeItem('loggedInUser');
         alert('Has cerrado sesión.');
-        window.location.href = `${rootPath}index.html`; // Redirige al index
+        window.location.href = `${rootPath}index.html`; 
       });
     }
 
   } else {
-    // --- (Meta 1) Usuario NO ha iniciado sesión ---
-    // Se muestra el botón de Login
+    // --- Usuario NO ha iniciado sesión ---
     linksHTML = `<li><a href="${basePath}login.html" class="login-btn">Login</a></li>`;
     navLinksList.innerHTML += linksHTML;
   }

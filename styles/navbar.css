@@ -1,4 +1,4 @@
-/* === NAVBAR === */
+/* === styles/navbar.css (Actualizado) === */
 .navbar {
   position: fixed;
   top: 0;
@@ -12,7 +12,6 @@
   background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0));
 }
 
-/* Cuando hacés scroll: fondo sólido + blur */
 .navbar.scrolled {
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(10px);
@@ -35,7 +34,7 @@
   list-style: none;
   display: flex;
   gap: 30px;
-  align-items: center; /* Centra verticalmente los items */
+  align-items: center; 
 }
 .nav-links li a {
   text-decoration: none;
@@ -47,7 +46,7 @@
   color: #AD49E1;
 }
 
-/* Toggle menú móvil */
+/* Toggle (Botón hamburguesa) */
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -66,7 +65,6 @@
   position: relative;
 }
 
-/* Botón del Dropdown */
 .dropdown .dropdown-btn {
   color: white;
   font-weight: 600;
@@ -80,7 +78,7 @@
   margin: -7px;
 }
 
-/* Estilo especial para el botón de perfil */
+/* Botón especial de Perfil */
 .dropdown .perfil-btn {
   background: none;
   border: 2px solid #AD49E1;
@@ -90,8 +88,8 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin: 0; /* Resetea el margen negativo */
-  display: flex; /* Para alinear el avatar y el texto */
+  margin: 0; 
+  display: flex; 
   align-items: center;
 }
 
@@ -100,19 +98,8 @@
   color: white;
 }
 
-/* === INICIO CAMBIOS PARA AVATAR === */
-
-/* Avatar circular en el navbar */
+/* === CAMBIO: Avatar de Inicial (ÚNICO) === */
 .navbar-avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  object-fit: cover; /* Asegura que la imagen llene el círculo */
-  margin-right: 8px; /* Espacio entre avatar y nombre */
-}
-
-/* Inicial (si no hay foto) en el navbar */
-.navbar-avatar-initial {
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -125,8 +112,6 @@
   font-weight: 700;
   margin-right: 8px;
 }
-/* === FIN CAMBIOS PARA AVATAR === */
-
 
 /* Menú desplegable */
 .dropdown-menu {
@@ -139,9 +124,9 @@
   border-radius: 6px;
   display: none;
   flex-direction: column;
-  min-width: 160px; /* Ancho mínimo */
+  min-width: 160px; 
   z-index: 1000;
-  padding: 5px 0; /* Pequeño padding vertical */
+  padding: 5px 0; 
 }
 
 .dropdown-menu li {
@@ -151,30 +136,27 @@
 
 .dropdown-menu a {
   display: block;
-  padding: 10px 15px; /* Espaciado interno */
+  padding: 10px 15px; 
   color: white;
   text-decoration: none;
-  font-size: 0.9rem; /* Tamaño de letra más de menú */
+  font-size: 0.9rem; 
 }
 
 .dropdown-menu a:hover {
   background: #AD49E1;
 }
 
-/* Muestra el menú al hacer hover */
 .dropdown:hover .dropdown-menu {
   display: flex;
 }
 
-/* Separador visual */
 .dropdown-divider {
   height: 1px;
   margin: 5px 0;
   background-color: #333;
 }
 
-
-/* RESPONSIVE */
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
   .menu-toggle { display: flex; }
   .nav-links {
@@ -196,7 +178,6 @@
     opacity: 1;
   }
 
-  /* Responsive para dropdowns */
   .dropdown {
     width: 100%;
   }

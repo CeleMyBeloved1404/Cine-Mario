@@ -1,4 +1,4 @@
-// --- js/configuracion.js (Con guardado de foto) ---
+// --- js/configuracion.js (Simplificado, SIN foto) ---
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -7,11 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const profileForm = document.getElementById('profile-form');
   const passwordForm = document.getElementById('password-form');
   const btnConfirmDelete = document.getElementById('btn-confirm-delete');
-  const profilePicInput = document.getElementById('profile-pic');
-  const profilePicPreview = document.getElementById('profile-pic-preview');
 
-  // URL de un placeholder genérico
-  const placeholderAvatar = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyq2rRcrHq_GLOLcFacebookT-n3nNAlGrLRQ0A&s';
+  // CAMBIO: Eliminadas las referencias a profilePicInput y profilePicPreview
+  // CAMBIO: Eliminado el placeholderAvatar
 
   // 1. Obtener la sesión actual
   const loggedInUserSession = JSON.parse(sessionStorage.getItem('loggedInUser'));
@@ -30,51 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. Rellenar el formulario con los datos actuales
   document.getElementById('username').value = currentUser.username;
-  // Mostramos la foto guardada (o el placeholder)
-  profilePicPreview.src = currentUser.profilePic || placeholderAvatar;
+  // CAMBIO: Eliminada la línea que rellenaba profilePicPreview.src
 
-  // --- LÓGICA 0: VISTA PREVIA INMEDIATA AL SELECCIONAR FOTO ---
-  profilePicInput.addEventListener('change', () => {
-    const file = profilePicInput.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        // Mostramos la foto que se acaba de seleccionar
-        profilePicPreview.src = e.target.result;
-      };
-      reader.readAsDataURL(file); // Convertir el archivo a base64
-    }
-  });
+  // CAMBIO: Eliminada la LÓGICA 0 (Vista previa)
 
 
-  // --- LÓGICA 1: EDITAR PERFIL (Nombre y Foto) ---
+  // --- LÓGICA 1: EDITAR PERFIL (Solo Nombre) ---
   profileForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const newUsername = document.getElementById('username').value;
-    const file = profilePicInput.files[0];
-
+    
     // 1. Actualizar el nombre en la BD y Sesión
     usersDB[userIndexInDB].username = newUsername;
     loggedInUserSession.username = newUsername;
 
-    // 2. Si el usuario subió una foto nueva, la procesamos
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const base64Image = e.target.result;
-
-        // Guardar la foto (como texto base64) en BD y Sesión
-        usersDB[userIndexInDB].profilePic = base64Image;
-        loggedInUserSession.profilePic = base64Image;
-
-        // Guardar todo
-        saveAndReload();
-      };
-      reader.readAsDataURL(file); // Inicia la conversión
-    } else {
-      // Si no subió foto, solo guardamos el nombre
-      saveAndReload();
-    }
+    // CAMBIO: Eliminada toda la lógica de 'if (file)' y 'FileReader'
+    
+    // 2. Guardar y recargar
+    saveAndReload();
   });
 
   function saveAndReload() {
@@ -85,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     location.reload(); // Recargar para que el navbar se actualice
   }
 
-  // --- LÓGICA 2: CAMBIAR CONTRASEÑA ---
+  // --- LÓGICA 2: CAMBIAR CONTRASEÑA (Sin cambios) ---
   passwordForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const currentPassword = document.getElementById('current-password').value;
@@ -107,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     passwordForm.reset();
   });
 
-  // --- LÓGICA 3: DESACTIVAR CUENTA ---
+  // --- LÓGICA 3: DESACTIVAR CUENTA (Sin cambios) ---
   btnConfirmDelete.addEventListener('click', () => {
     const confirmPassword = document.getElementById('delete-confirm-password').value;
     if (confirmPassword !== currentUser.password) {

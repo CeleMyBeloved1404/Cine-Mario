@@ -1,6 +1,4 @@
-/* === styles/series.css === */
-/* (Copiado desde peliculas.css) */
-
+/* === styles/series.css (Limpiado) === */
 body { 
   margin:0; 
   background: #000000; 
@@ -8,6 +6,7 @@ body {
   font-family: 'Poppins', sans-serif; 
 }
 
+/* Espaciador para separar navbar y contenido */
 .header-spacer {
   height: 90px;
   background: transparent;
@@ -105,11 +104,10 @@ body {
 }
 .carrusel::-webkit-scrollbar { display: none; }
 
-/* PELÍCULAS (Reutilizado para 'Series') */
+/* PELÍCULAS */
 .pelicula {
   position: relative;
   cursor: pointer;
-
 }
 .pelicula.seleccionada::after {
   content: "";

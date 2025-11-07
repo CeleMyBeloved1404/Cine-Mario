@@ -1,4 +1,4 @@
-/* === styles/perfil.css === */
+/* === styles/perfil.css (Actualizado) === */
 
 body {
   background: #000000;
@@ -17,31 +17,24 @@ body {
   border-bottom: 1px solid #222;
 }
 
-/* El círculo para la foto de perfil (o inicial) */
+/* El círculo para la inicial */
 .profile-avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: #7A1CAC; /* Color primario */
+  background: #7A1CAC; 
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 3.5rem;
   font-weight: 900;
   color: #fff;
-  border: 4px solid #AD49E1; /* Borde de acento */
+  border: 4px solid #AD49E1; 
   margin-bottom: 20px;
-  /* INICIO CAMBIO: Para que la imagen de adentro se vea bien */
-  overflow: hidden; /* Esto es clave */
+  overflow: hidden; 
 }
 
-/* Estilo para la imagen DENTRO del avatar */
-.profile-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Asegura que la imagen llene el círculo */
-}
-/* FIN CAMBIO */
+/* CAMBIO: Eliminado el .profile-avatar img */
 
 /* Nombre de usuario */
 .profile-username {
@@ -91,7 +84,7 @@ body {
 
 .watched-card img {
   width: 100%;
-  height: 270px; /* Más alto para pósters */
+  height: 270px; 
   object-fit: cover;
 }
 

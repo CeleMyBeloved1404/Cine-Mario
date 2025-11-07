@@ -1,9 +1,9 @@
-// --- js/perfil.js (Con foto de perfil) ---
+// --- js/perfil.js (Simplificado, SIN foto) ---
 
 document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Obtener los "hooks" del HTML
-  const avatarEl = document.getElementById('profile-avatar'); // El DIV contenedor
+  const avatarEl = document.getElementById('profile-avatar'); 
   const usernameEl = document.getElementById('profile-username');
   const emailEl = document.getElementById('profile-email');
   const gridEl = document.getElementById('watched-grid-container');
@@ -20,15 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
     emailEl.textContent = user.email;
   }
 
-  // --- INICIO CAMBIO: Lógica del Avatar ---
-  if (avatarEl) {
-    if (user.profilePic) {
-      // Si hay foto guardada, crear un tag <img>
-      avatarEl.innerHTML = `<img src="${user.profilePic}" alt="Foto de perfil">`;
-    } else {
-      // Si NO hay foto, mostrar la inicial
-      avatarEl.textContent = user.username[0].toUpperCase();
-    }
+  // --- CAMBIO: Lógica del Avatar Simplificada ---
+  if (avatarEl && user.username) {
+    // Si NO hay foto, mostrar la inicial
+    avatarEl.textContent = user.username[0].toUpperCase();
   }
   // --- FIN CAMBIO ---
 

@@ -1,3 +1,4 @@
+/* === styles/peliculas.css (Limpiado) === */
 body { 
   margin:0; 
   background: #000000; 
@@ -5,10 +6,7 @@ body {
   font-family: 'Poppins', sans-serif; 
 }
 
-/* Asegura que el navbar esté en flujo y no solape contenido */
-
-
-/* Espaciador para separar navbar y contenido (ajusta altura si tu navbar es más alto) */
+/* Espaciador para separar navbar y contenido */
 .header-spacer {
   height: 90px;
   background: transparent;
@@ -31,7 +29,7 @@ body {
   transform: translate(-50%, -50%);
   z-index: -1;
   object-fit: cover;
-  filter: none; /* oscuro para que se lea el texto */
+  filter: none;
 }
 .hero-mario img {
   width: 100%;
@@ -88,14 +86,14 @@ body {
 }
 
 /* FILAS */
-.filas { padding: 40px 5% 50px; } /* reducido para que quede bien con header-spacer */
+.filas { padding: 40px 5% 50px; } 
 .fila h2 {
   font-size: 1.6rem;
   margin: 0 0 15px 10px;
   color: #AD49E1;
 }
 
-/* CARRUSEL (scroll suave) */
+/* CARRUSEL */
 .carrusel {
   display: flex;
   gap: 12px;
@@ -110,13 +108,12 @@ body {
 .pelicula {
   position: relative;
   cursor: pointer;
-
 }
 .pelicula.seleccionada::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(122, 28, 172, 0.4); /* color galáctico */
+  background: rgba(122, 28, 172, 0.4); 
   border: 2px solid #AD49E1;
   border-radius: 12px;
   pointer-events: none;
@@ -145,6 +142,8 @@ body {
   .hero-mario { background: url('../images/movie2.jpg') center/cover no-repeat; }
   .header-spacer { height: 64px; }
 }
+
+/* BOTÓN MUTE */
 .btn-mute {
   position: absolute;
   bottom: 28px;
@@ -172,88 +171,10 @@ body {
   transform: translate(-50%,-50%);
 }
 .icon-off { display: none; }
-
-/* Silenciado = icono OFF */
 .btn-mute.muted .icon-on  { display: none; }
 .btn-mute.muted .icon-off { display: block; }
-.perfil-btn {
-  background: none;
-  border: 2px solid #AD49E1;
-  color: #AD49E1;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.header-container .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
 
-  /* Fondo transparente con leve blur */
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px) saturate(150%);
-  -webkit-backdrop-filter: blur(8px) saturate(150%);
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: background 0.3s ease, backdrop-filter 0.3s ease;
-}
-
-/* Cuando haces scroll, se vuelve un poco más sólida */
-.navbar.scrolled {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-}
-.dropdown {
-  position: relative;
-}
-.dropdown-btn {
-  color: white;
-  font-weight: 600;
-  padding: 8px 16px;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1rem;
-  border: none;
-  background: none;
-  cursor: pointer;
-  margin: -7px;
-}
-.nav-links li {
-  display: inline-block;
-  vertical-align: middle;
-}
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: rgba(0,0,0,0.9);
-  border: 1px solid #AD49E1;
-  border-radius: 6px;
-  display: none;
-  flex-direction: column;
-  min-width: 120px;
-  z-index: 1000;
-}
-.dropdown-menu li {
-  list-style: none;
-}
-.dropdown-menu a {
-  display: block;
-  padding: 10px;
-  color: white;
-  text-decoration: none;
-}
-.dropdown-menu a:hover {
-  background: #AD49E1;
-}
-.dropdown:hover .dropdown-menu {
-  display: flex;
-}
+/* MODAL */
 .modal {
   display: none;
   position: fixed;
