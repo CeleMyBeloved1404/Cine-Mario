@@ -61,8 +61,7 @@
   transition: 0.3s;
 }
 
-/* === ESTILOS DE DROPDOWN (Movidos de peliculas.css) === */
-
+/* === ESTILOS DE DROPDOWN === */
 .dropdown {
   position: relative;
 }
@@ -92,6 +91,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   margin: 0; /* Resetea el margen negativo */
+  display: flex; /* Para alinear el avatar y el texto */
+  align-items: center;
 }
 
 .dropdown .perfil-btn:hover {
@@ -99,15 +100,40 @@
   color: white;
 }
 
+/* === INICIO CAMBIOS PARA AVATAR === */
+
+/* Avatar circular en el navbar */
+.navbar-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover; /* Asegura que la imagen llene el círculo */
+  margin-right: 8px; /* Espacio entre avatar y nombre */
+}
+
+/* Inicial (si no hay foto) en el navbar */
+.navbar-avatar-initial {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #7A1CAC;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-right: 8px;
+}
+/* === FIN CAMBIOS PARA AVATAR === */
+
 
 /* Menú desplegable */
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  /* Alineamos el menú a la derecha para el perfil */
   right: 0; 
   left: auto;
-  
   background: rgba(0,0,0,0.9);
   border: 1px solid #AD49E1;
   border-radius: 6px;

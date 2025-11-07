@@ -2,99 +2,80 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <script src="../js/protector.js"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto - Cine Mario</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Corregimos las rutas de los archivos CSS -->
+    
     <link rel="stylesheet" href="../styles/base.css">
     <link rel="stylesheet" href="../styles/navbar.css">
     <link rel="stylesheet" href="../styles/footer.css">
     <link rel="stylesheet" href="../styles/contacto.css">
 </head>
 <body>
-    <!-- Navbar con rutas corregidas -->
-    <nav class="navbar">
+    <nav class="navbar" id="miNavbar">
         <a href="../index.html" class="logo">CINE<span>MARIO</span></a>
-        <ul class="nav-links">
-            <li><a href="../index.html">Inicio</a></li>
-            <li class="dropdown">
-                <a href="cartelera.html" class="dropdown-toggle">Cartelera</a>
-                <div class="dropdown-menu">
-                    <a href="cartelera.html#encartel">Películas en cartel</a>
-                    <a href="cartelera.html#proximos">Próximos estrenos</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="generos.html" class="dropdown-toggle">Géneros</a>
-                <div class="dropdown-menu">
-                    <a href="generos.html#accion">Acción</a>
-                    <a href="generos.html#comedia">Comedia</a>
-                    <a href="generos.html#drama">Drama</a>
-                    <a href="generos.html#scifi">Sci-Fi</a>
-                </div>
-            </li>
-            <li><a href="contacto.html">Contacto</a></li>
-            <li><a href="login.html" class="login-btn">Login</a></li>
-        </ul>
+        
+        <ul class="nav-links" id="nav-links-list">
+            <li><a href="peliculas.html">Películas</a></li>    
+            <li><a href="Series.html">Series</a></li> 
+            <li><a href="Novedades.html">Novedades</a></li> 
+            </ul>
+        
+        <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
     </nav>
+    <div class="header-spacer"></div>
 
-    <!-- Contact Section -->
+
     <div class="main-content">
         <div class="contact-container">
-            <h1>¿Necesitas ayuda?</h1>
-            <p class="contact-subtitle">Estamos aquí para asistirte en lo que necesites</p>
             
-            <form class="contact-form" action="/enviar-contacto" method="POST">
-            <form class="contact-form" action="/enviar-contacto" method="POST">
-    <div class="form-group">
-        <label for="nombre">Nombre completo:</label>
-        <input type="text" id="nombre" name="nombre" required>
-    </div>
+            <div class="contact-header">
+                <h1>¿Necesitas ayuda?</h1>
+                <p class="contact-subtitle">Estamos aquí para asistirte en lo que necesites</p>
+            </div>
+            
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <label for="nombre">Nombre completo:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
 
-    <div class="form-group">
-        <label for="email">Correo electrónico:</label>
-        <input type="email" id="email" name="email" required>
-    </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
 
-    <div class="form-group">
-        <label for="asunto">Asunto:</label>
-        <select id="asunto" name="asunto" required>
-            <option value="">Seleccione un asunto</option>
-            <option value="peliculas">Consulta sobre películas</option>
-            <option value="entradas">Consulta sobre Membresía</option>
-            <option value="precios">Problemas con CineMario</option>
-            <option value="asientos">Pedido películas</option>
-            <option value="compras">Problemas con compras</option>
-            <option value="recibos">Reembolsos</option>
-            <option value="otros">Otros</option>
-        </select>
-    </div>
+                <div class="form-group">
+                    <label for="asunto">Asunto:</label>
+                    <select id="asunto" name="asunto" required>
+                        <option value="">Seleccione un asunto</option>
+                        <option value="peliculas">Consulta sobre películas</option>
+                        <option value="entradas">Consulta sobre Membresía</option>
+                        <option value="precios">Problemas con CineMario</option>
+                        <option value="asientos">Pedido películas</option>
+                        <option value="compras">Problemas con compras</option>
+                        <option value="recibos">Reembolsos</option>
+                        <option value="otros">Otros</option>
+                    </select>
+                </div>
 
-    <div class="form-group">
-        <label for="mensaje">Mensaje:</label>
-        <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
-    </div>
+                <div class="form-group">
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
+                </div>
 
-    <button type="submit" class="submit-button">Enviar mensaje</button>
-</form>          
+                <button type="submit" class="submit-button">Enviar mensaje</button>
+            </form>          
         </div>
     </div>
 
-    <!-- Agregamos el footer -->
     <footer class="footer">
         <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Agregamos el script para el menú móvil -->
-    <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        if (menuToggle && navLinks) {
-            menuToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-            });
-        }
-    </script>
-</body>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/contacto.js"></script> </body>
 </html>

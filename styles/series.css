@@ -1,0 +1,206 @@
+/* === styles/series.css === */
+/* (Copiado desde peliculas.css) */
+
+body { 
+  margin:0; 
+  background: #000000; 
+  color: white; 
+  font-family: 'Poppins', sans-serif; 
+}
+
+.header-spacer {
+  height: 90px;
+  background: transparent;
+}
+
+/* HERO MARIO */
+.hero-mario {
+  position: relative;
+  height: 70vh;
+  overflow: hidden;
+  z-index: 0;
+}
+.hero-video {
+  position: absolute;
+  top: 50%; left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  object-fit: cover;
+  filter: none;
+}
+.hero-mario img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 40%, #0f0f0f);
+  pointer-events: none  ;
+}
+.hero-content {
+  position: absolute;
+  bottom: 15%;
+  left: 5%;
+  max-width: 600px;
+}
+.hero-content h1 {
+  font-family: 'Netflix Sans', sans-serif;
+  font-size: 5vw;
+  margin: 0;
+  text-shadow: 3px 3px 10px black;
+}
+.tagline {
+  color: #7A1CAC;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+.sinopsis {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin: 15px 0 25px;
+}
+.botones button {
+  padding: 12px 28px;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+.btn-play {
+  background: #AD49E1;
+  color: white;
+}
+.btn-info {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  backdrop-filter: blur(5px);
+}
+
+/* FILAS */
+.filas { padding: 40px 5% 50px; }
+.fila h2 {
+  font-size: 1.6rem;
+  margin: 0 0 15px 10px;
+  color: #AD49E1;
+}
+
+/* CARRUSEL */
+.carrusel {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.carrusel::-webkit-scrollbar { display: none; }
+
+/* PELÍCULAS (Reutilizado para 'Series') */
+.pelicula {
+  position: relative;
+  cursor: pointer;
+
+}
+.pelicula.seleccionada::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(122, 28, 172, 0.4);
+  border: 2px solid #AD49E1;
+  border-radius: 12px;
+  pointer-events: none;
+}
+.pelicula img {
+  width: 200px;
+  height: 100px;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+.pelicula:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 30px rgba(125,20,172,0.4);
+  z-index: 2;
+}
+.pelicula:hover img {
+  transform: scale(1.05);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 10vw; }
+  .pelicula { flex: 0 0 45%; }
+  .botones button { padding: 10px 20px; font-size: 0.9rem; }
+  .hero-video { display: none; }
+  .hero-mario { background: url('../images/movie2.jpg') center/cover no-repeat; }
+  .header-spacer { height: 64px; }
+}
+
+/* BOTÓN MUTE */
+.btn-mute {
+  position: absolute;
+  bottom: 28px;
+  right: 5%;
+  background: rgba(0,0,0,0.4);
+  border: 2px solid rgba(122, 28, 172, 0.25);
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  z-index: 10;
+}
+.btn-mute:hover {
+  background: rgba(122, 28, 172);
+  border-color: #7A1CAC;
+  transform: scale(1.1);
+}
+.btn-mute svg {
+  width: 20px; height: 20px;
+  fill: white;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+}
+.icon-off { display: none; }
+.btn-mute.muted .icon-on  { display: none; }
+.btn-mute.muted .icon-off { display: block; }
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(6px);
+}
+.modal-content {
+  background: #0f0f0f;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  color: white;
+}
+.cerrar {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.cerrar:hover {
+  color: #AD49E1;
+}

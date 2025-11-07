@@ -7,7 +7,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <title>Películas - Cine Mario</title>
   
-  <!-- Fuentes -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Netflix+Sans:wght@900&display=swap" rel="stylesheet">
    
   <link rel="stylesheet" href="../styles/navbar.css">
@@ -17,33 +16,31 @@
 </head>
 <body>
 
-  <!-- HEADER: contenedor separado para el navbar (no sobrepuesto) -->
   <header class="header-container">
     <nav class="navbar" id="miNavbar">
       <a href="../index.html" class="logo">CINE<span>MARIO</span></a>
-       <ul class="nav-links">
+       
+       <ul class="nav-links" id="nav-links-list">
         <li><a href="Series.html">Series</a></li>    
          <li><a href="Novedades.html">Novedades</a></li> 
-   <li class="dropdown">
-  <a href="#" class="nav-link dropdown-btn">Género ▾</a>
-  <ul class="dropdown-menu">
-    <li><a href="#fila2">Acción</a></li>
-    <li><a href="#fila3">Comedia</a></li>
-    <li><a href="#fila4">Terror</a></li>
-    <li><a href="#fila5">Animación</a></li>
-    <li><a href="#fila6">Drama</a></li>
-  </ul>
-</li>
-        <li><a href="interfaz-usuario.html" class="perfil-btn">Perfil</a></li>
-      </ul>
+         <li class="dropdown">
+          <a href="#" class="nav-link dropdown-btn">Género ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="#fila2">Acción</a></li>
+            <li><a href="#fila3">Comedia</a></li>
+            <li><a href="#fila4">Terror</a></li>
+            <li><a href="#fila5">Animación</a></li>
+            <li><a href="#fila6">Drama</a></li>
+          </ul>
+        </li>
+        </ul>
+      
       <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
     </nav>
   </header>
 
-  <!-- Espaciador para que el contenido no quede debajo del navbar -->
   <div class="header-spacer" aria-hidden="true"></div>
 
-  <!-- HERO MARIO -->
   <section class="hero-mario">
     <div class="hero-overlay"></div>
     <video class="hero-video" autoplay muted loop playsinline>
@@ -71,7 +68,6 @@
     </div>
   </section>
 
-  <!-- FILAS CINE MARIO -->
   <main class="filas">
     <section class="fila">
       <h2>Tendencias esta semana</h2>
@@ -115,9 +111,10 @@
   <footer class="footer">
     <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
   </footer>
+   
    <script src="../js/navbar.js"></script>
-  <script src="../js/peliculas.js"></script>
-  <script src="../js/auth.js"></script>
+   <script src="../js/peliculas.js"></script>
+   <script src="../js/auth.js"></script> 
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </html>
