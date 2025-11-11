@@ -124,7 +124,7 @@
   border-radius: 6px;
   display: none;
   flex-direction: column;
-  min-width: 160px; 
+  width: 100%;
   z-index: 1000;
   padding: 5px 0; 
 }
@@ -144,6 +144,8 @@
 
 .dropdown-menu a:hover {
   background: #AD49E1;
+  color: #fff !important;
+  white-space: nowrap;
 }
 
 .dropdown:hover .dropdown-menu {
