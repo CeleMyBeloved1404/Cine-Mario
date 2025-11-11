@@ -30,7 +30,7 @@ const imagenesPorGenero = {
   fila3: ["comedia1.jpg", "comedia2.jpg", "comedia3.jpg", "comedia4.jpg", "comedia5.jpg", "comedia6.jpg"],
   fila4: ["terror1.jpg", "terror2.jpg", "terror3.jpg", "terror4.jpg", "terror5.jpg", "terror6.jpg"],
   fila5: ["animacion1.jpg", "animacion2.jpeg", "animacion3.jpg", "animacion4.jpg", "animacion5.jpg", "animacion6.jpg"],
-  fila6: ["drama1.jpg", "drama2.jpg", "drama3.jpg"],
+  fila6: ["drama1.jpg", "drama2.jpg", "drama3.jpg", "drama4.jpg", "drama5.jpg", "drama6.jpg"],
 };
 
 Object.entries(imagenesPorGenero).forEach(([id, lista]) => {
