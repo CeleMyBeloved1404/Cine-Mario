@@ -1,75 +1,74 @@
-// --- js/admin-users.js ---
+// --- js/admin-users.js (Conectado a PHP) ---
 
 document.addEventListener('DOMContentLoaded', () => {
-  // --- MODALES DE BOOTSTRAP ---
+  const tbody = document.getElementById('cuerpoTablaUsuarios');
   const modalEditar = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
   const modalEliminar = new bootstrap.Modal(document.getElementById('confirmarEliminarUsuario'));
-
-  // --- ELEMENTOS DEL DOM ---
-  const tbody = document.getElementById('cuerpoTablaUsuarios');
   const editUserForm = document.getElementById('editUserForm');
   const btnConfirmarDelete = document.getElementById('btn-confirmar-delete');
 
-  // --- "BASE DE DATOS" DE USUARIOS ---
-  // Intentamos cargar desde localStorage, si no, usamos datos de ejemplo
-  const DB_KEY = 'cineMarioUsers';
-  let usuariosDB = JSON.parse(localStorage.getItem(DB_KEY));
+  let currentEditingUserId = null;
+  let currentDeletingUserId = null;
 
-  // Si no hay nada en localStorage, creamos datos de ejemplo y los guardamos
-  if (!usuariosDB || usuariosDB.length === 0) {
-    usuariosDB = [
-      { id: 1, username: 'Admin General', email: 'admin@cinemario.com', password: '123', rol: 'Admin' },
-      { id: 2, username: 'Cele MyBeloved', email: 'cele@ejemplo.com', password: '123', rol: 'Usuario' },
-      { id: 3, username: 'Usuario Prueba', email: 'test@ejemplo.com', password: '123', rol: 'Usuario' }
-    ];
-    // Guardamos los datos de ejemplo
-    localStorage.setItem(DB_KEY, JSON.stringify(usuariosDB));
-  }
-  
-  // --- FUNCIÓN PARA GUARDAR EN LOCALSTORAGE ---
-  function guardarDB() {
-    localStorage.setItem(DB_KEY, JSON.stringify(usuariosDB));
+  // --- FUNCIÓN PARA CARGAR Y "PINTAR" LOS USUARIOS DESDE LA BD ---
+  async function renderizarUsuarios() {
+    try {
+      const response = await fetch('../api/get_users.php');
+      if (response.status === 403) { // Error de Admin
+          alert('Acceso denegado. No tienes permisos de administrador.');
+          window.location.href = 'peliculas.html';
+          return;
+      }
+      const data = await response.json();
+
+      if (data.success) {
+        tbody.innerHTML = ''; // Limpiar tabla
+        data.users.forEach(user => {
+          const row = document.createElement('tr');
+          // Guardamos los datos en el elemento para usarlos después
+          row.setAttribute('data-id', user.id);
+          row.setAttribute('data-username', user.username);
+          row.setAttribute('data-email', user.email);
+          row.setAttribute('data-rol', user.rol);
+          
+          row.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td>
+              <span class="badge ${user.rol === 'Admin' ? 'bg-danger' : 'bg-primary'}">${user.rol}</span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-warning btn-editar">Editar</button>
+              <button class="btn btn-sm btn-danger btn-eliminar">Eliminar</button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Error al cargar usuarios:', error);
+    }
   }
 
-  // --- FUNCIÓN PARA "PINTAR" LOS USUARIOS EN LA TABLA ---
-  function renderizarUsuarios() {
-    tbody.innerHTML = ''; // Limpiar tabla
-    usuariosDB.forEach(user => {
-      const row = document.createElement('tr');
-      row.setAttribute('data-id', user.id);
-      row.innerHTML = `
-        <td>${user.id}</td>
-        <td>${user.username}</td>
-        <td>${user.email}</td>
-        <td>
-          <span class="badge ${user.rol === 'Admin' ? 'bg-danger' : 'bg-primary'}">${user.rol}</span>
-        </td>
-        <td>
-          <button class="btn btn-sm btn-warning btn-editar">Editar</button>
-          <button class="btn btn-sm btn-danger btn-eliminar">Eliminar</button>
-        </td>
-      `;
-      tbody.appendChild(row);
-    });
-  }
-
-  // --- LISTENER PRINCIPAL PARA LA TABLA (EDITAR Y ELIMINAR) ---
+  // --- LISTENER PARA LOS BOTONES DE LA TABLA (EDITAR Y ELIMINAR) ---
   tbody.addEventListener('click', (e) => {
     const fila = e.target.closest('tr');
     if (!fila) return;
 
     const userId = fila.getAttribute('data-id');
-    const usuario = usuariosDB.find(u => u.id == userId);
 
     // --- Botón EDITAR ---
     if (e.target.classList.contains('btn-editar')) {
-      // 1. Rellenar el modal con los datos del usuario
-      document.getElementById('editUserName').value = usuario.username;
-      document.getElementById('editUserEmail').value = usuario.email;
-      document.getElementById('editUserRole').value = usuario.rol;
+      // 1. Rellenar el modal con los datos de la fila
+      document.getElementById('editUserName').value = fila.getAttribute('data-username');
+      document.getElementById('editUserEmail').value = fila.getAttribute('data-email');
+      document.getElementById('editUserRole').value = fila.getAttribute('data-rol');
       
-      // 2. Guardar el ID en el formulario para saber a quién editamos
-      editUserForm.setAttribute('data-editing-id', userId);
+      // 2. Guardar el ID del usuario que estamos editando
+      currentEditingUserId = userId;
       
       // 3. Abrir el modal de edición
       modalEditar.show();
@@ -77,12 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Botón ELIMINAR ---
     if (e.target.classList.contains('btn-eliminar')) {
-      // 1. Poner el nombre del usuario en el modal de confirmación
+      // 1. Poner el nombre del usuario en el modal
       const modalBody = document.getElementById('confirmarEliminarUsuario').querySelector('.modal-body');
-      modalBody.textContent = `¿Estás seguro de que quieres eliminar a ${usuario.username}?`;
+      modalBody.textContent = `¿Estás seguro de que quieres eliminar a ${fila.getAttribute('data-username')}?`;
 
-      // 2. Guardar el ID en el botón "Eliminar" del modal
-      btnConfirmarDelete.setAttribute('data-id-borrar', userId);
+      // 2. Guardar el ID del usuario que vamos a borrar
+      currentDeletingUserId = userId;
       
       // 3. Abrir el modal de confirmación
       modalEliminar.show();
@@ -90,42 +89,62 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- LISTENER PARA GUARDAR CAMBIOS (MODAL EDITAR) ---
-  editUserForm.addEventListener('submit', (e) => {
+  editUserForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
-    const userId = editUserForm.getAttribute('data-editing-id');
-    
-    // 1. Actualizar el usuario en nuestra "base de datos"
-    const usuarioIndex = usuariosDB.findIndex(u => u.id == userId);
-    if (usuarioIndex > -1) {
-      usuariosDB[usuarioIndex].username = document.getElementById('editUserName').value;
-      usuariosDB[usuarioIndex].email = document.getElementById('editUserEmail').value;
-      usuariosDB[usuarioIndex].rol = document.getElementById('editUserRole').value;
+    if (!currentEditingUserId) return;
+
+    const newRol = document.getElementById('editUserRole').value;
+
+    try {
+      const response = await fetch('../api/update_user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update_role',
+          user_id: currentEditingUserId,
+          rol: newRol
+        })
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        alert(result.message);
+        modalEditar.hide();
+        renderizarUsuarios(); // Recargar la tabla
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error al actualizar rol:', error);
     }
-    
-    // 2. Guardar en localStorage y volver a pintar
-    guardarDB();
-    renderizarUsuarios();
-    
-    // 3. Cerrar el modal
-    modalEditar.hide();
   });
 
   // --- LISTENER PARA CONFIRMAR ELIMINACIÓN (MODAL ELIMINAR) ---
-  btnConfirmarDelete.addEventListener('click', () => {
-    const userId = btnConfirmarDelete.getAttribute('data-id-borrar');
-    
-    // 1. Eliminar el usuario de nuestra "base de datos"
-    usuariosDB = usuariosDB.filter(u => u.id != userId);
-    
-    // 2. Guardar en localStorage y volver a pintar
-    guardarDB();
-    renderizarUsuarios();
-    
-    // 3. Cerrar el modal
-    modalEliminar.hide();
-  });
+  btnConfirmarDelete.addEventListener('click', async () => {
+    if (!currentDeletingUserId) return;
 
+    try {
+      const response = await fetch('../api/delete_user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'admin_delete',
+          user_id: currentDeletingUserId
+        })
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        alert(result.message);
+        modalEliminar.hide();
+        renderizarUsuarios(); // Recargar la tabla
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error al eliminar:', error);
+    }
+  });
 
   // --- CARGA INICIAL DE USUARIOS ---
   renderizarUsuarios();

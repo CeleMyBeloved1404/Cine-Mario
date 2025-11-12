@@ -1,97 +1,122 @@
-// --- js/configuracion.js (Simplificado, SIN foto) ---
+// --- js/configuracion.js (Conectado a PHP) ---
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // --- OBTENER DATOS Y ELEMENTOS ---
-  const DB_KEY = 'cineMarioUsers';
+  // --- OBTENER ELEMENTOS ---
   const profileForm = document.getElementById('profile-form');
   const passwordForm = document.getElementById('password-form');
   const btnConfirmDelete = document.getElementById('btn-confirm-delete');
+  const usernameInput = document.getElementById('username');
 
-  // CAMBIO: Eliminadas las referencias a profilePicInput y profilePicPreview
-  // CAMBIO: Eliminado el placeholderAvatar
-
-  // 1. Obtener la sesión actual
-  const loggedInUserSession = JSON.parse(sessionStorage.getItem('loggedInUser'));
-  if (!loggedInUserSession) return;
-
-  // 2. Obtener la "Base de Datos" COMPLETA
-  let usersDB = JSON.parse(localStorage.getItem(DB_KEY)) || [];
-
-  // 3. Encontrar el índice del usuario actual en la BD
-  const userIndexInDB = usersDB.findIndex(user => user.id === loggedInUserSession.id);
-  if (userIndexInDB === -1) {
-    console.error('Error fatal: El usuario de la sesión no se encuentra en la BD.');
-    return;
-  }
-  const currentUser = usersDB[userIndexInDB];
-
-  // 4. Rellenar el formulario con los datos actuales
-  document.getElementById('username').value = currentUser.username;
-  // CAMBIO: Eliminada la línea que rellenaba profilePicPreview.src
-
-  // CAMBIO: Eliminada la LÓGICA 0 (Vista previa)
+  // 1. Rellenar el formulario con los datos de la sesión
+  // (check_session.php ya se ejecutó en auth.js,
+  // pero necesitamos los datos del usuario aquí de nuevo)
+  
+  // Usamos el 'user' de la sesión que guardó check_session
+  // (Nota: Esto es una simplificación, js/auth.js debería guardar esto)
+  // Vamos a pedir los datos a la sesión de nuevo
+  
+  (async () => {
+      try {
+        const response = await fetch('../api/check_session.php');
+        const data = await response.json();
+        if (data.loggedIn) {
+            usernameInput.value = data.user.username;
+        }
+      } catch (e) { console.error('Error cargando datos de usuario'); }
+  })();
 
 
-  // --- LÓGICA 1: EDITAR PERFIL (Solo Nombre) ---
-  profileForm.addEventListener('submit', (e) => {
+  // --- LÓGICA 1: EDITAR PERFIL (Nombre de usuario) ---
+  profileForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const newUsername = document.getElementById('username').value;
+    const newUsername = usernameInput.value;
     
-    // 1. Actualizar el nombre en la BD y Sesión
-    usersDB[userIndexInDB].username = newUsername;
-    loggedInUserSession.username = newUsername;
+    try {
+      const response = await fetch('../api/update_user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update_profile',
+          username: newUsername
+        })
+      });
+      const result = await response.json();
 
-    // CAMBIO: Eliminada toda la lógica de 'if (file)' y 'FileReader'
-    
-    // 2. Guardar y recargar
-    saveAndReload();
+      if (result.success) {
+        alert(result.message);
+        // Recargamos la página para que el navbar (auth.js) muestre el nuevo nombre
+        location.reload();
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error al actualizar perfil:', error);
+    }
   });
 
-  function saveAndReload() {
-    localStorage.setItem(DB_KEY, JSON.stringify(usersDB));
-    sessionStorage.setItem('loggedInUser', JSON.stringify(loggedInUserSession));
-    
-    alert('Perfil actualizado correctamente.');
-    location.reload(); // Recargar para que el navbar se actualice
-  }
-
-  // --- LÓGICA 2: CAMBIAR CONTRASEÑA (Sin cambios) ---
-  passwordForm.addEventListener('submit', (e) => {
+  // --- LÓGICA 2: CAMBIAR CONTRASEÑA ---
+  passwordForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const currentPassword = document.getElementById('current-password').value;
-    const newPassword = document.getElementById('new-password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
+    const current_password = document.getElementById('current-password').value;
+    const new_password = document.getElementById('new-password').value;
+    const confirm_password = document.getElementById('confirm-password').value;
 
-    if (newPassword !== confirmPassword) {
+    if (new_password !== confirm_password) {
       alert('Las nuevas contraseñas no coinciden.');
       return;
     }
-    if (currentUser.password !== currentPassword) {
-      alert('La contraseña actual es incorrecta.');
-      return;
-    }
     
-    usersDB[userIndexInDB].password = newPassword;
-    localStorage.setItem(DB_KEY, JSON.stringify(usersDB));
-    alert('Contraseña cambiada exitosamente.');
-    passwordForm.reset();
+    try {
+      const response = await fetch('../api/update_user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update_password',
+          current_password: current_password,
+          new_password: new_password
+        })
+      });
+      const result = await response.json();
+      
+      alert(result.message); // Informa éxito o fracaso
+      if (result.success) {
+        passwordForm.reset(); // Limpiar los campos
+      }
+
+    } catch (error) {
+      console.error('Error al cambiar contraseña:', error);
+    }
   });
 
-  // --- LÓGICA 3: DESACTIVAR CUENTA (Sin cambios) ---
-  btnConfirmDelete.addEventListener('click', () => {
-    const confirmPassword = document.getElementById('delete-confirm-password').value;
-    if (confirmPassword !== currentUser.password) {
-      alert('Contraseña incorrecta. Desactivación cancelada.');
+  // --- LÓGICA 3: DESACTIVAR CUENTA ---
+  btnConfirmDelete.addEventListener('click', async () => {
+    const password = document.getElementById('delete-confirm-password').value;
+    if (!password) {
+      alert('Por favor, ingresa tu contraseña para confirmar.');
       return;
     }
 
-    usersDB.splice(userIndexInDB, 1);
-    localStorage.setItem(DB_KEY, JSON.stringify(usersDB));
-    sessionStorage.removeItem('loggedInUser');
+    try {
+      const response = await fetch('../api/delete_user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'self_delete',
+          password: password
+        })
+      });
+      const result = await response.json();
 
-    alert('Tu cuenta ha sido desactivada. Serás redirigido al inicio.');
-    window.location.href = '../index.html';
+      if (result.success) {
+        alert(result.message);
+        window.location.href = '../index.html'; // Redirigir a la página de inicio
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error('Error al desactivar cuenta:', error);
+    }
   });
 
 });

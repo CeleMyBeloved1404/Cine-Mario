@@ -1,13 +1,12 @@
-// --- js/registro.js ---
+// --- js/registro.js (Conectado a PHP) ---
 
 document.addEventListener('DOMContentLoaded', () => {
-  const registroForm = document.querySelector('form'); // Asume que solo hay un form
-  const DB_KEY = 'cineMarioUsers'; // Nuestra "base de datos"
+  const registroForm = document.querySelector('form');
 
-  registroForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+  registroForm.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Evitamos que el formulario se envíe por HTML
 
-    // 1. Obtener valores del formulario
+    // 1. Obtener valores
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -17,32 +16,31 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 2. Obtener la "base de datos" de localStorage
-    // Si no existe, crea un array vacío
-    let usuarios = JSON.parse(localStorage.getItem(DB_KEY)) || [];
+    // 2. Enviar los datos al backend (PHP)
+    try {
+      const response = await fetch('../api/register.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password
+        })
+      });
 
-    // 3. Verificar si el email ya está registrado
-    const usuarioExistente = usuarios.find(user => user.email === email);
-    if (usuarioExistente) {
-      alert('El correo electrónico ya está registrado.');
-      return;
+      const result = await response.json();
+
+      if (result.success) {
+        alert(result.message);
+        window.location.href = 'login.html'; // Redirigir al login
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error de conexión:', error);
+      alert('Hubo un problema al conectar con el servidor.');
     }
-
-    // 4. Crear el nuevo usuario (añadimos un rol por defecto)
-    const nuevoUsuario = {
-      id: Date.now(), // ID único simple
-      username: username,
-      email: email,
-      password: password, // NOTA: En un backend real, NUNCA guardes contraseñas en texto plano.
-      rol: 'Usuario' // Rol por defecto
-    };
-    
-    // 5. Agregar el nuevo usuario y guardar en localStorage
-    usuarios.push(nuevoUsuario);
-    localStorage.setItem(DB_KEY, JSON.stringify(usuarios));
-
-    // 6. Informar al usuario y redirigir
-    alert('¡Registro exitoso! Ahora serás redirigido al login.');
-    window.location.href = 'login.html'; // Redirige a la página de login
   });
 });

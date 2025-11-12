@@ -1,176 +1,129 @@
+// --- js/admin-films.js (Conectado a PHP) ---
+
 document.addEventListener('DOMContentLoaded', () => {
   const addForm = document.getElementById('addForm');
   const tbody = document.getElementById('tbody');
-  const addModal = document.getElementById('addModal');
-  const addModalLabel = document.getElementById('addModalLabel');
-  const imageInputContainer = document.getElementById('image').parentElement;
-  
-  // Instancia del Modal de Bootstrap
-  const modal = new bootstrap.Modal(addModal);
+  const carouselItems = document.getElementById('carouselItems');
+  const addModal = new bootstrap.Modal(document.getElementById('addModal'));
 
-  // --- FUNCIÓN PRINCIPAL DEL FORMULARIO (CREAR O EDITAR) ---
-  addForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const editingId = addForm.getAttribute('data-editing-id');
-    
-    // Obtener valores comunes
-    const title = document.getElementById('title').value;
-    const category = document.getElementById('category').value;
-    const type = document.getElementById('type').value;
-    const duration = document.getElementById('duration').value;
-    const year = document.getElementById('year').value;
-
-    if (editingId) {
-      // --- MODO EDICIÓN ---
-      // Actualizar la fila de la tabla
-      const fila = tbody.querySelector(`tr[data-id="${editingId}"]`);
-      if (fila) {
-        fila.children[1].textContent = title;
-        fila.children[2].textContent = category;
-        fila.children[3].textContent = type;
-        fila.children[4].textContent = duration;
-        fila.children[5].textContent = year;
+  // --- 1. FUNCIÓN PARA CARGAR TODAS LAS PELÍCULAS ---
+  async function cargarContenido() {
+    try {
+      const response = await fetch('../api/peliculas_crud.php?action=read');
+      if (response.status === 403) { // Error de Admin
+          alert('Acceso denegado. No tienes permisos de administrador.');
+          window.location.href = 'peliculas.html';
+          return;
       }
-      
-      // Actualizar el 'alt' de la imagen en el carrusel
-      const itemCarrusel = document.querySelector(`.carousel-item[data-id="${editingId}"] img`);
-      if (itemCarrusel) {
-        itemCarrusel.alt = title;
-      }
-      
-      modal.hide();
+      const data = await response.json();
 
-    } else {
-      // --- MODO CREACIÓN ---
-      const imageInput = document.getElementById('image');
-      const file = imageInput.files[0];
+      if (data.success) {
+        // Limpiamos la tabla y el carrusel
+        tbody.innerHTML = '';
+        carouselItems.innerHTML = '';
+        
+        if (data.peliculas.length === 0) {
+            carouselItems.innerHTML = '<div class="carousel-item active"><img src="../images/placeholder.jpg" class="d-block w-100" alt="Ejemplo"></div>';
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center">No hay contenido en la base de datos.</td></tr>';
+            return;
+        }
 
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const imageUrl = event.target.result;
-          const peliId = `peli-${Date.now()}`; // ID único
-
-          // 1. Añadir a la TABLA
+        data.peliculas.forEach((peli, index) => {
+          // 1. Rellenar la TABLA
           const row = document.createElement('tr');
-          row.setAttribute('data-id', peliId);
+          row.setAttribute('data-id', peli.id);
           row.innerHTML = `
-            <td>${tbody.children.length + 1}</td>
-            <td>${title}</td>
-            <td>${category}</td>
-            <td>${type}</td>
-            <td>${duration}</td>
-            <td>${year}</td>
-            <td><i class="bi bi-check-circle-fill text-success"></i></td>
+            <td>${peli.id}</td>
+            <td>${peli.titulo}</td>
+            <td>${peli.categoria}</td>
+            <td>${peli.tipo}</td>
+            <td>${peli.ano}</td>
+            <td><i class="bi ${peli.publicado ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'}"></i></td>
             <td>
-              <button class="btn btn-sm btn-warning btn-editar">Editar</button>
+              <button class="btn btn-sm btn-warning btn-editar" disabled>Editar</button>
               <button class="btn btn-sm btn-danger btn-borrar">Borrar</button>
             </td>
           `;
           tbody.appendChild(row);
 
-          // 2. Añadir al CARRUSEL
-          const carousel = document.getElementById('carouselItems');
-          const placeholder = carousel.querySelector('img[src="../images/placeholder.jpg"]');
-          const isActive = (carousel.children.length === 0 || !!placeholder);
-
-          if (placeholder) {
-            placeholder.closest('.carousel-item').remove();
-          }
-
+          // 2. Rellenar el CARRUSEL
           const item = document.createElement('div');
-          item.classList.add('carousel-item');
-          if (isActive) {
-            item.classList.add('active');
-          }
-          item.setAttribute('data-id', peliId);
-          item.innerHTML = `<img src="${imageUrl}" class="d-block w-100" alt="${title}" data-bs-toggle="modal" data-bs-target="#imgModal1">`;
-          carousel.appendChild(item);
-
-          modal.hide();
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert("Por favor, selecciona una imagen.");
+          item.className = index === 0 ? 'carousel-item active' : 'carousel-item';
+          item.innerHTML = `<img src="${peli.imagen_url}" class="d-block w-100" alt="${peli.titulo}">`;
+          carouselItems.appendChild(item);
+        });
       }
+    } catch (error) {
+      console.error('Error al cargar contenido:', error);
+    }
+  }
+
+  // --- 2. FUNCIÓN PARA CREAR NUEVO CONTENIDO (Formulario) ---
+  addForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const data = {
+      title: document.getElementById('title').value,
+      category: document.getElementById('category').value,
+      synopsis: document.getElementById('synopsis').value,
+      type: document.getElementById('type').value,
+      duration: document.getElementById('duration').value,
+      year: document.getElementById('year').value,
+      image: document.getElementById('image').value
+    };
+
+    try {
+      const response = await fetch('../api/peliculas_crud.php?action=create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        alert(result.message);
+        addForm.reset();
+        addModal.hide();
+        cargarContenido(); // Recargar la tabla y el carrusel
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error al crear contenido:', error);
     }
   });
 
-  // --- LISTENER PARA BOTONES DE LA TABLA (EDITAR Y BORRAR) ---
-  tbody.addEventListener('click', (e) => {
-    const fila = e.target.closest('tr');
-    if (!fila) return; 
-
-    const peliId = fila.getAttribute('data-id');
-
-    // --- Botón BORRAR ---
+  // --- 3. FUNCIÓN PARA BORRAR CONTENIDO (Botón en tabla) ---
+  tbody.addEventListener('click', async (e) => {
     if (e.target.classList.contains('btn-borrar')) {
+      const fila = e.target.closest('tr');
+      const id = fila.getAttribute('data-id');
       const titulo = fila.children[1].textContent;
-      
-      if (confirm(`¿Seguro que quieres borrar "${titulo}"?`)) {
-        // 1. Borrar fila de tabla
-        fila.remove();
-        
-        // 2. Borrar item de carrusel
-        const itemCarrusel = document.querySelector(`.carousel-item[data-id="${peliId}"]`);
-        if (itemCarrusel) {
-          // Si era el activo, pasar 'active' al siguiente
-          if (itemCarrusel.classList.contains('active')) {
-            const nextItem = itemCarrusel.nextElementSibling || itemCarrusel.previousElementSibling;
-            if (nextItem) {
-              nextItem.classList.add('active');
-            }
+
+      if (confirm(`¿Seguro que quieres eliminar "${titulo}"?`)) {
+        try {
+          const response = await fetch('../api/peliculas_crud.php?action=delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id })
+          });
+          const result = await response.json();
+
+          if (result.success) {
+            alert(result.message);
+            cargarContenido(); // Recargar la tabla
+          } else {
+            alert('Error: ' + result.message);
           }
-          itemCarrusel.remove();
-          
-          // Si el carrusel quedó vacío, volver a poner el placeholder
-          const carousel = document.getElementById('carouselItems');
-          if (carousel.children.length === 0) {
-            carousel.innerHTML = `
-              <div class="carousel-item active">
-                <img src="../images/placeholder.jpg" class="d-block w-100" alt="Ejemplo" data-bs-toggle="modal" data-bs-target="#imgModal1">
-              </div>`;
-          }
+        } catch (error) {
+          console.error('Error al eliminar:', error);
         }
       }
     }
-
-    // --- Botón EDITAR ---
-    if (e.target.classList.contains('btn-editar')) {
-      // Obtener datos de la fila
-      const titulo = fila.children[1].textContent;
-      const categoria = fila.children[2].textContent;
-      const tipo = fila.children[3].textContent;
-      const duracion = fila.children[4].textContent;
-      const anio = fila.children[5].textContent;
-
-      // Rellenar formulario
-      document.getElementById('title').value = titulo;
-      document.getElementById('category').value = categoria;
-      document.getElementById('type').value = tipo;
-      document.getElementById('duration').value = duracion;
-      document.getElementById('year').value = anio;
-      
-      // Ocultar input de imagen (no se puede "re-rellenar" un input file)
-      imageInputContainer.style.display = 'none';
-      
-      // Guardar ID en el form y cambiar título
-      addForm.setAttribute('data-editing-id', peliId);
-      addModalLabel.textContent = 'Editar Contenido';
-
-      modal.show();
-    }
   });
 
-  // --- LIMPIEZA AL CERRAR EL MODAL ---
-  // Se dispara cuando el modal termina de ocultarse
-  addModal.addEventListener('hidden.bs.modal', () => {
-    addForm.reset();
-    addForm.removeAttribute('data-editing-id');
-    addModalLabel.textContent = 'Añadir nuevo contenido';
-    // Siempre mostrar el input de imagen al cerrar
-    imageInputContainer.style.display = 'block'; 
-  });
 
-});
+  // --- CARGA INICIAL ---
+  cargarContenido();
+  
+}); // Fin del DOMContentLoaded

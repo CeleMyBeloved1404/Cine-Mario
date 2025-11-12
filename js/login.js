@@ -1,13 +1,11 @@
-// --- js/login.js ---
+// --- js/login.js (Conectado a PHP) ---
 
 document.addEventListener('DOMContentLoaded', () => {
-  const loginForm = document.querySelector('form'); // Asume que solo hay un form
-  const DB_KEY = 'cineMarioUsers'; // La misma "base de datos"
+  const loginForm = document.querySelector('form');
 
-  loginForm.addEventListener('submit', (e) => {
+  loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // 1. Obtener valores
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -16,28 +14,36 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 2. Obtener usuarios
-    const usuarios = JSON.parse(localStorage.getItem(DB_KEY)) || [];
+    // 1. Enviar datos al backend (PHP)
+    try {
+      const response = await fetch('../api/login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email, password: password })
+      });
 
-    // 3. Buscar al usuario
-    const usuarioEncontrado = usuarios.find(user => user.email === email && user.password === password);
+      const result = await response.json();
 
-    if (usuarioEncontrado) {
-      // 4. ¡ÉXITO! Creamos la "sesión"
-      // sessionStorage se borra solo cuando se cierra el navegador
-      sessionStorage.setItem('loggedInUser', JSON.stringify(usuarioEncontrado));
-      
-      // 5. Redirigir según el rol
-      if (usuarioEncontrado.rol === 'Admin') {
-        alert('Inicio de sesión exitoso. Bienvenido, Admin.');
-        window.location.href = 'admin-films.html'; // Redirigir al panel de admin
+      if (result.success) {
+        // ¡ÉXITO! El backend creó la sesión.
+        // Ya no necesitamos guardar nada en sessionStorage/localStorage.
+        
+        // 2. Redirigir según el rol
+        if (result.user.rol === 'Admin') {
+          alert('Inicio de sesión exitoso. Bienvenido, Admin.');
+          window.location.href = 'admin-films.html';
+        } else {
+          alert('Inicio de sesión exitoso. Bienvenido a Cine Mario.');
+          window.location.href = 'peliculas.html';
+        }
       } else {
-        alert('Inicio de sesión exitoso. Bienvenido a Cine Mario.');
-        window.location.href = 'peliculas.html'; // Redirigir a la página principal
+        alert(result.message);
       }
-    } else {
-      // 5. FRACASO
-      alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+    } catch (error) {
+      console.error('Error de conexión:', error);
+      alert('Hubo un problema al conectar con el servidor.');
     }
   });
 });
