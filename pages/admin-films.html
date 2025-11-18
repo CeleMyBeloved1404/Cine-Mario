@@ -36,13 +36,8 @@
       <div id="carouselAdmin" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner" id="carouselItems">
           </div>
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAdmin" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselAdmin" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        </button>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAdmin" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselAdmin" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
       </div>
     </section>
 
@@ -53,6 +48,7 @@
             <th>#</th>
             <th>Título</th>
             <th>Categoría</th>
+            <th>Director</th>
             <th>Tipo</th>
             <th>Año</th>
             <th>Publicado</th>
@@ -96,6 +92,7 @@
                 <label class="form-label">Sinopsis</label>
                 <textarea class="form-control bg-dark text-light border-secondary" id="synopsis" rows="3" required></textarea>
               </div>
+              
               <div class="col-md-6">
                 <label class="form-label">Tipo</label>
                 <select class="form-select bg-dark text-light border-secondary" id="type" required>
@@ -104,17 +101,26 @@
                   <option>Serie</option>
                 </select>
               </div>
-              <div class="col-md-3">
+              
+              <div class="col-md-6">
+                <label class="form-label">Director</label>
+                <select class="form-select bg-dark text-light border-secondary" id="director">
+                  <option value="">-- Seleccionar Director --</option>
+                  </select>
+              </div>
+              
+              <div class="col-md-6">
                 <label class="form-label">Duración</label>
                 <input type="text" class="form-control bg-dark text-light border-secondary" id="duration" placeholder="ej: 1h 30m">
               </div>
-              <div class="col-md-3">
+              <div class="col-md-6">
                 <label class="form-label">Año</label>
                 <input type="number" class="form-control bg-dark text-light border-secondary" id="year" placeholder="ej: 2024" required>
               </div>
+              
               <div class="col-12">
-                <label class="form-label">URL Imagen Portada</label>
-                <input type="text" class="form-control bg-dark text-light border-secondary" id="image" placeholder="https://ejemplo.com/imagen.jpg" required>
+                <label class="form-label">Subir Imagen Portada</label>
+                <input type="file" class="form-control bg-dark text-light border-secondary" id="image" accept="image/png, image/jpeg" required>
               </div>
             </div>
           </form>
@@ -126,7 +132,6 @@
       </div>
     </div>
   </div>
-
   <footer class="footer">
     <p>© 2025 Cine Mario. Todos los derechos reservados.</p>
   </footer>

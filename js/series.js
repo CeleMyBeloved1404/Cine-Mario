@@ -1,99 +1,105 @@
-// --- js/series.js (Corregido) ---
+// --- js/series.js (Conectado a la Base de Datos) ---
 
-// --- BOTÓN MUTE ---
-const video = document.querySelector('.hero-video');
-const muteBtn = document.getElementById('muteBtn');
-
-if (muteBtn && video) {
-  muteBtn.addEventListener('click', () => {
-    video.muted = !video.muted;
-    muteBtn.classList.toggle('muted', video.muted);
-  });
-}
-
-// --- BOTÓN PLAY ---
-document.querySelectorAll('.btn-play').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (!video) return;
-    video.muted = false;
-    video.currentTime = 0;
-    video.play();
-  });
+// --- 1. FUNCIÓN PRINCIPAL PARA CARGAR TODO ---
+document.addEventListener('DOMContentLoaded', () => {
+  cargarContenidoDeSeries();
 });
 
-// --- RELLENAR CARRUSELES (Datos de ejemplo para Series) ---
-const imagenesPorGenero = {
-  'fila-series-tendencia': ["tendencia1.jpg", "tendencia2.jpg", "tendencia3.jpg"],
-  'fila-series-accion': ["accion1.jpg", "accion2.jpg", "accion3.jpg"],
-  'fila-series-comedia': ["comedia1.jpg", "comedia2.jpg", "comedia3.jpg"],
-  'fila-series-terror': ["terror1.jpg", "terror2.jpg", "terror3.jpg"],
-  'fila-series-animacion': ["animacion1.jpg", "animacion2.jpeg", "animacion3.jpg"],
-  'fila-series-drama': ["drama1.jpg", "drama2.jpg", "drama3.jpg"],
-};
+async function cargarContenidoDeSeries() {
+  try {
+    // 1.1. Llamar a la acción 'read_public'
+    const response = await fetch('../api/peliculas_crud.php?action=read_public');
+    const data = await response.json();
 
-Object.entries(imagenesPorGenero).forEach(([id, lista]) => {
-  const carrusel = document.getElementById(id);
+    if (data.success) {
+      // 1.2. Filtrar para obtener SOLO las que son 'Serie'
+      const todasLasSeries = data.peliculas.filter(item => item.tipo === 'Serie');
+      
+      // 1.3. Clasificar por categoría
+      const categorias = {
+        'fila-series-tendencia': todasLasSeries.filter(p => p.categoria === 'Animación').slice(0, 7), // "Tendencias" de ejemplo
+        'fila-series-accion': todasLasSeries.filter(p => p.categoria === 'Acción'),
+        'fila-series-comedia': todasLasSeries.filter(p => p.categoria === 'Comedia'),
+        'fila-series-terror': todasLasSeries.filter(p => p.categoria === 'Terror'),
+        'fila-series-animacion': todasLasSeries.filter(p => p.categoria === 'Animación'),
+        'fila-series-drama': todasLasSeries.filter(p => p.categoria === 'Drama'),
+      };
+
+      // 1.4. Rellenar todos los carruseles
+      for (const idCarrusel in categorias) {
+        popularCarrusel(idCarrusel, categorias[idCarrusel]);
+      }
+
+    } else {
+      console.error('Error al cargar series:', data.message);
+    }
+  } catch (error) {
+    console.error('Error de conexión:', error);
+  }
+}
+
+// --- 2. FUNCIÓN PARA RELLENAR UN CARRUSEL ---
+function popularCarrusel(idElemento, listaSeries) {
+  const carrusel = document.getElementById(idElemento);
   if (!carrusel) return;
 
-  lista.forEach(nombre => {
+  carrusel.innerHTML = ''; // Limpiar carrusel
+  
+  if (listaSeries.length === 0) {
+    carrusel.innerHTML = '<p style="color: #555; margin-left: 10px;">No hay títulos en esta categoría.</p>';
+    return;
+  }
+
+  listaSeries.forEach(serie => {
     const div = document.createElement('div');
     div.className = 'pelicula'; // Reutilizamos la clase .pelicula
+    // Guardamos los datos en el HTML para el modal
+    div.setAttribute('data-trailer-url', serie.trailer_url || ''); 
+    div.setAttribute('data-duracion', serie.duracion);
+    div.setAttribute('data-director', serie.director_nombre || 'Desconocido');
+    div.setAttribute('data-sinopsis', serie.sinopsis);
+    
     div.innerHTML = `
-      <img src="../images/peliculas/${nombre}" 
+      <img src="${serie.imagen_url}" 
            loading="lazy" 
-           alt="Póster serie">
+           alt="Póster de ${serie.titulo}">
     `;
     carrusel.appendChild(div);
   });
-});
+}
 
-// --- DATOS DEL MODAL (Datos de ejemplo para Series) ---
-const series = [
-  {
-    id: "animacion1",
-    imagen: "../images/peliculas/animacion1.jpg",
-    trailer: "../videos/kimetsu-trailer.mp4", 
-    duracion: "3 Temporadas",
-    director: "Haruo Sotozaki", // "Director" ahora es "Creador"
-    sinopsis: "Un joven se convierte en un cazador de demonios después de que su familia es asesinada."
-  },
-  {
-    id: "animacion2",
-    imagen: "../images/peliculas/animacion2.jpeg",
-    trailer: "../videos/placeholder.mp4", 
-    duracion: "1 Temporada",
-    director: "Tim Burton",
-    sinopsis: "Un hombre pone accidentalmente un anillo de bodas en el dedo de una novia cadáver."
-  }
-];
-  
-// --- LÓGICA DEL MODAL ---
+
+// --- 3. LÓGICA DEL MODAL ---
 document.addEventListener("click", (e) => {
-  const img = e.target.closest(".pelicula img");
-  if (!img) return;
+  const serieDiv = e.target.closest(".pelicula");
+  if (!serieDiv) return;
 
-  const nombre = img.src.split("/").pop();
-  const serie = series.find(p => p.imagen.includes(nombre));
+  const serie = {
+    trailer: serieDiv.getAttribute('data-trailer-url'),
+    duracion: serieDiv.getAttribute('data-duracion'),
+    director: serieDiv.getAttribute('data-director'),
+    sinopsis: serieDiv.getAttribute('data-sinopsis')
+  };
 
-  if (serie) {
-    mostrarModal(serie);
-  }
+  mostrarModal(serie);
 });
 
 function mostrarModal(serie) {
   const modal = document.getElementById("modalPelicula");
   const trailer = document.getElementById("trailer");
   const duracion = document.getElementById("duracion");
-  const director = document.getElementById("director"); // Creador
+  const director = document.getElementById("director"); // (Este ID es 'director' en tu HTML de series)
   const sinopsis = document.getElementById("sinopsis");
 
-  trailer.src = serie.trailer;
-  duracion.textContent = serie.duracion;
-  director.textContent = serie.director;
-  sinopsis.textContent = serie.sinopsis;
+  trailer.src = serie.trailer ? serie.trailer : '';
+  duracion.textContent = serie.duracion || 'N/A';
+  director.textContent = serie.director || 'N/A';
+  sinopsis.textContent = serie.sinopsis || 'Sin sinopsis disponible.';
 
   modal.style.display = "block";
 }
+
+// --- 4. LÓGICA DE UI (Sin cambios) ---
 
 // Cerrar modal (X)
 document.querySelector(".cerrar").addEventListener("click", () => {
@@ -101,7 +107,6 @@ document.querySelector(".cerrar").addEventListener("click", () => {
   modal.style.display = "none";
   document.getElementById("trailer").src = ""; // Detiene video
 });
-
 // Cerrar modal (clic afuera)
 window.addEventListener("click", (e) => {
   const modal = document.getElementById("modalPelicula");
@@ -110,33 +115,37 @@ window.addEventListener("click", (e) => {
     document.getElementById("trailer").src = "";
   }
 });
-
-// --- SCROLL CON RUEDA MOUSE ---
+// Scroll con rueda
 document.querySelectorAll('.carrusel').forEach(carrusel => {
   carrusel.addEventListener('wheel', e => {
     e.preventDefault();
     carrusel.scrollLeft += e.deltaY * 2;
   });
 });
-
-// --- AUTOPLAY VIDEO DEL HERO ---
+// Botón Mute
+const video = document.querySelector('.hero-video');
+const muteBtn = document.getElementById('muteBtn');
+if (muteBtn && video) {
+  muteBtn.addEventListener('click', () => {
+    video.muted = !video.muted;
+    muteBtn.classList.toggle('muted', video.muted);
+  });
+}
+// Botón Play
+document.querySelectorAll('.btn-play').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (!video) return;
+    video.muted = false;
+    video.currentTime = 0;
+    video.play();
+  });
+});
+// Autoplay Hero
 if (video) {
   video.muted = true;
   video.play().catch(() => console.log('Autoplay bloqueado'));
 }
-
-// --- SELECCIÓN DE PELÍCULA ---
-document.addEventListener('click', e => {
-  const pelicula = e.target.closest('.pelicula');
-  if (!pelicula) return;
-
-  // Quitar selección previa
-  document.querySelectorAll('.pelicula.seleccionada').forEach(p => {
-    p.classList.remove('seleccionada');
-  });
-});
-
-// --- NAVEGACIÓN DROPDOWN GÉNERO ---
+// Navegación dropdown
 document.querySelectorAll('.dropdown-menu a').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();

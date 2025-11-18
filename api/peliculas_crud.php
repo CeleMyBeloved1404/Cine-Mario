@@ -1,41 +1,60 @@
 <?php
-include 'db_connect.php'; // Tu conector de BD
+include 'db_connect.php'; 
 session_start();
 
-// Determinar la acción a realizar
 $action = $_GET['action'] ?? '';
 
-// Proteger todas las acciones de este CRUD solo para Admins
-include 'auth_admin.php';
+// Verificamos si el usuario está logueado (para acciones públicas)
+if (!isset($_SESSION['user_id']) && $action === 'read_public') {
+    http_response_code(401); // No autorizado
+    echo json_encode(['success' => false, 'message' => 'No has iniciado sesión.']);
+    exit;
+}
 
 switch ($action) {
     
-    // --- CREATE (Crear Película) ---
+    // --- CREATE (Protegido por Admin) ---
     case 'create':
-        $data = json_decode(file_get_contents('php://input'));
+        include 'auth_admin.php'; // Solo Admins pueden crear
         
-        $stmt = $conn->prepare("INSERT INTO peliculas (titulo, sinopsis, categoria, tipo, duracion, ano, imagen_url) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssis", 
-            $data->title, 
-            $data->synopsis, 
-            $data->category, 
-            $data->type, 
-            $data->duration, 
-            $data->year, 
-            $data->image
-        );
-        
-        if ($stmt->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Contenido añadido.']);
+        $upload_dir = '../images/peliculas/';
+        $file_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+        $file_name = uniqid() . '-' . time() . '.' . $file_extension;
+        $target_path = $upload_dir . $file_name;
+        $relative_path = '../images/peliculas/' . $file_name;
+
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $target_path)) {
+            $data = $_POST;
+            $id_director = !empty($data['id_director']) ? $data['id_director'] : NULL;
+
+            $stmt = $conn->prepare("INSERT INTO peliculas (titulo, sinopsis, categoria, tipo, duracion, ano, imagen_url, id_director) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssssisi", 
+                $data['title'], $data['synopsis'], $data['category'], 
+                $data['type'], $data['duration'], $data['year'], 
+                $relative_path, $id_director
+            );
+            
+            if ($stmt->execute()) {
+                echo json_encode(['success' => true, 'message' => 'Contenido añadido.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al guardar en BD: ' . $stmt->error]);
+            }
+            $stmt->close();
         } else {
-            echo json_encode(['success' => false, 'message' => 'Error al guardar: ' . $stmt->error]);
+            echo json_encode(['success' => false, 'message' => 'Error al subir el archivo de imagen.']);
         }
-        $stmt->close();
         break;
 
-    // --- READ (Leer todas las Películas) ---
+    // --- READ (Protegido por Admin - es el que usa admin-films.js) ---
     case 'read':
-        $result = $conn->query("SELECT * FROM peliculas ORDER BY id DESC");
+        include 'auth_admin.php'; // Solo Admins
+        
+        $sql = "SELECT p.*, d.nombre AS director_nombre 
+                FROM peliculas p
+                LEFT JOIN directores d ON p.id_director = d.id_director
+                ORDER BY p.id DESC";
+        
+        $result = $conn->query($sql);
         $peliculas = [];
         while ($row = $result->fetch_assoc()) {
             $peliculas[] = $row;
@@ -43,8 +62,27 @@ switch ($action) {
         echo json_encode(['success' => true, 'peliculas' => $peliculas]);
         break;
 
-    // --- DELETE (Borrar Película) ---
+    // --- ¡NUEVA ACCIÓN! READ PÚBLICO (Para peliculas.html y series.html) ---
+    case 'read_public':
+        // No necesita auth_admin.php, ya está protegido por protector.js en el frontend
+        
+        $sql = "SELECT p.*, d.nombre AS director_nombre 
+                FROM peliculas p
+                LEFT JOIN directores d ON p.id_director = d.id_director
+                ORDER BY p.ano DESC"; // Ordenamos por año (más relevante)
+        
+        $result = $conn->query($sql);
+        $peliculas = [];
+        while ($row = $result->fetch_assoc()) {
+            $peliculas[] = $row;
+        }
+        echo json_encode(['success' => true, 'peliculas' => $peliculas]);
+        break;
+
+    // --- DELETE (Protegido por Admin) ---
     case 'delete':
+        include 'auth_admin.php'; // Solo Admins
+        
         $data = json_decode(file_get_contents('php://input'));
         $id = $data->id;
 
@@ -58,9 +96,19 @@ switch ($action) {
         }
         $stmt->close();
         break;
-
-    // (Aquí podrías añadir el 'update' en el futuro)
         
+    // --- GET DIRECTORS (Protegido por Admin) ---
+    case 'get_directors':
+        include 'auth_admin.php'; // Solo Admins
+        
+        $result = $conn->query("SELECT id_director, nombre FROM directores ORDER BY nombre ASC");
+        $directores = [];
+        while ($row = $result->fetch_assoc()) {
+            $directores[] = $row;
+        }
+        echo json_encode(['success' => true, 'directores' => $directores]);
+        break;
+
     default:
         echo json_encode(['success' => false, 'message' => 'Acción no válida.']);
 }
